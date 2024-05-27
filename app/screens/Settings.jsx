@@ -75,7 +75,7 @@ const Settings = () => {
     try {
       await auth().signOut();
       await AsyncStorage.removeItem('user');
-      navigate.navigate('Home');
+      navigate.navigate('Home', {screen: 'LoggedIn'});
     } catch (error) {
       setError('Error logging out');
     }

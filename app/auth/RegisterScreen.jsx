@@ -5,6 +5,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
+  Modal,
+  Button,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -19,10 +21,10 @@ const RegisterScreen = () => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const [error, setError] = useState('');
   const [isSignUpEnabled, setIsSignUpEnabled] = useState(false);
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   useEffect(() => {
     if (
@@ -37,7 +39,7 @@ const RegisterScreen = () => {
     } else {
       setIsSignUpEnabled(false);
     }
-  });
+  }, [firstName, lastName, email, userName, password, confirmPassword]);
 
   const handleRegister = async () => {
     try {
@@ -75,8 +77,9 @@ const RegisterScreen = () => {
 
   const onDateChange = (event, selectedDate) => {
     setShowDatePicker(false);
-    const currentDate = selectedDate || dateOfBirth;
-    setDateOfBirth(currentDate);
+    if (selectedDate) {
+      setDateOfBirth(selectedDate);
+    }
   };
 
   return (
@@ -84,18 +87,21 @@ const RegisterScreen = () => {
       <Text style={styles.title}>Create an Account</Text>
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <TextInput
+        autoCapitalize="none"
         style={styles.input}
         placeholder="First Name"
         value={firstName}
         onChangeText={setFirstName}
       />
       <TextInput
+        autoCapitalize="none"
         style={styles.input}
         placeholder="Last Name"
         value={lastName}
         onChangeText={setLastName}
       />
       <TextInput
+        autoCapitalize="none"
         style={styles.input}
         placeholder="Email"
         value={email}
@@ -103,21 +109,23 @@ const RegisterScreen = () => {
         keyboardType="email-address"
       />
       <TextInput
+        autoCapitalize="none"
         style={styles.input}
         placeholder="Username"
         value={userName}
         onChangeText={setUserName}
       />
-      <View style={styles.datePickerButton}>
-        <Text style={styles.datePickerText}>Date of birthday</Text>
-        <DateTimePicker
-          value={dateOfBirth}
-          mode="date"
-          display="default"
-          onChange={onDateChange}
-        />
-      </View>
+      <TouchableOpacity
+        style={styles.input}
+        onPress={() => setShowDatePicker(true)}>
+        <Text style={styles.datePickerText}>
+          {dateOfBirth !== null
+            ? dateOfBirth.toDateString()
+            : 'Date of Birthday'}
+        </Text>
+      </TouchableOpacity>
       <TextInput
+        autoCapitalize="none"
         style={styles.input}
         placeholder="Password"
         value={password}
@@ -125,6 +133,7 @@ const RegisterScreen = () => {
         secureTextEntry
       />
       <TextInput
+        autoCapitalize="none"
         style={styles.input}
         placeholder="Confirm Password"
         value={confirmPassword}
@@ -140,6 +149,25 @@ const RegisterScreen = () => {
         disabled={!isSignUpEnabled}>
         <Text style={styles.buttonText}>Register</Text>
       </TouchableOpacity>
+      {showDatePicker && (
+        <Modal
+          transparent={true}
+          animationType="slide"
+          visible={showDatePicker}
+          onRequestClose={() => setShowDatePicker(false)}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <DateTimePicker
+                value={dateOfBirth || new Date()}
+                mode="date"
+                display="default"
+                onChange={onDateChange}
+              />
+              <Button title="Close" onPress={() => setShowDatePicker(false)} />
+            </View>
+          </View>
+        </Modal>
+      )}
     </View>
   );
 };
@@ -163,27 +191,32 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 50,
     borderColor: '#ccc',
-    borderBottomWidth: 1,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    fontSize: 16,
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    marginBottom: 20,
     color: '#333',
+    backgroundColor: '#f9f9f9',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   datePickerButton: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    justifyContent: 'center',
     width: '100%',
     height: 50,
     borderColor: '#ccc',
-    borderBottomWidth: 1,
-    borderRadius: 5,
+    borderWidth: 1,
+    borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
+    backgroundColor: '#f9f9f9',
   },
   datePickerText: {
-    fontSize: 16,
-    color: '#ccc',
+    color: '#333',
+    paddingTop: 15,
   },
   button: {
     width: '100%',
@@ -192,6 +225,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     marginBottom: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   buttonText: {
     color: '#fff',
@@ -201,6 +242,19 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 20,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  modalContent: {
+    width: 300,
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    alignItems: 'center',
   },
 });
 
