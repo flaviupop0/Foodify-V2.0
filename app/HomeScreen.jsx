@@ -30,14 +30,16 @@ const HomeScreen = () => {
         </View>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={[styles.button, {backgroundColor: '#8a2be2'}]}
+            style={[styles.button, styles.loginButton]}
             onPress={handleLoginPress}>
-            <Text style={[styles.buttonText, {color: '#ffffff'}]}>Login</Text>
+            <Text style={[styles.buttonText, {color: 'white'}]}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.button, {backgroundColor: '#ffffff'}]}
+            style={[styles.button, styles.signUpButton]}
             onPress={handleSignUpPress}>
-            <Text style={[styles.buttonText, {color: '#000000'}]}>Sign Up</Text>
+            <Text style={[styles.buttonText, styles.signUpButtonText]}>
+              Sign Up
+            </Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>
@@ -52,7 +54,11 @@ const styles = StyleSheet.create({
   backgroundImage: {
     flex: 1,
     resizeMode: 'cover',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   titleContainer: {
     alignItems: 'center',
@@ -64,11 +70,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ffffff',
     fontFamily: 'PoetsenOne-Regular',
-  },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
-    justifyContent: 'flex-end',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 10,
   },
   buttonContainer: {
     width: '100%',
@@ -83,9 +88,28 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     alignItems: 'center',
   },
+  loginButton: {
+    backgroundColor: '#8a2be2',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
+  signUpButton: {
+    backgroundColor: '#ffffff',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
+  },
   buttonText: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  signUpButtonText: {
+    color: '#000000',
   },
 });
 

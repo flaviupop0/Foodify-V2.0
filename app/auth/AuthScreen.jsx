@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Animated,
   Easing,
+  ImageBackground,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/native';
@@ -57,58 +58,77 @@ const AuthScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Welcome to Foodify!</Text>
-      {error ? <Text style={styles.error}>{error}</Text> : null}
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        placeholderTextColor="#666"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        placeholderTextColor="#666"
-      />
-      <TouchableOpacity
-        style={styles.button}
-        onPressIn={startButtonAnimation}
-        onPressOut={resetButtonAnimation}
-        onPress={handleLogin}>
-        <Animated.Text
-          style={[styles.buttonText, {transform: [{scale: buttonScale}]}]}>
-          Login
-        </Animated.Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.forgotPassword}
-        onPress={handleForgotPasswordPress}>
-        <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-      </TouchableOpacity>
-    </View>
+    <ImageBackground
+      source={require('../../assets/background.png')}
+      style={styles.backgroundImage}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Log in</Text>
+        {error ? <Text style={styles.error}>{error}</Text> : null}
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
+            placeholderTextColor="#999"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry
+            placeholderTextColor="#999"
+          />
+        </View>
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.button}
+          onPressIn={startButtonAnimation}
+          onPressOut={resetButtonAnimation}
+          onPress={handleLogin}>
+          <Animated.Text
+            style={[styles.buttonText, {transform: [{scale: buttonScale}]}]}>
+            Login
+          </Animated.Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.forgotPassword}
+          onPress={handleForgotPasswordPress}>
+          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+        </TouchableOpacity>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  backgroundImage: {
+    flex: 1,
+    resizeMode: 'cover',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
   },
   title: {
     fontSize: 32,
     fontWeight: 'bold',
     marginBottom: 30,
-    color: '#333',
+    color: '#fff',
     fontFamily: 'PoetsenOne-Regular',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 10,
+  },
+  inputContainer: {
+    width: '100%',
+    marginBottom: 20,
   },
   input: {
     width: '100%',
@@ -119,6 +139,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     marginBottom: 20,
     color: '#333',
+    backgroundColor: '#f9f9f9',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
   },
   button: {
     width: '100%',
@@ -126,8 +152,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#8a2be2',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
     marginBottom: 20,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.3,
+    shadowRadius: 4,
+    elevation: 5,
+    borderRadius: 8,
   },
   buttonText: {
     color: '#fff',
@@ -141,7 +172,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   forgotPasswordText: {
-    color: '#ef4444',
+    color: '#8a2be2',
     fontWeight: 'bold',
     fontSize: 16,
   },
