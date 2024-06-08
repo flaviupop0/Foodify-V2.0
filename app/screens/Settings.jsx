@@ -1,25 +1,25 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  StyleSheet,
-  Modal,
-} from 'react-native';
+import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import {useNavigation} from '@react-navigation/native';
+import CustomButton from '../components/CustomButton/CustomButton';
+import CustomModal from '../components/CustomModal/CustomModal';
+import CustomTextInput from '../components/CustomTextInput/CustomTextInput';
+import {navigate} from '../components/NavigationRef/NavigationService';
 
 const Settings = () => {
-  const navigate = useNavigation();
+  const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [newUsername, setNewUsername] = useState('');
   const [newFirstName, setNewFirstName] = useState('');
   const [newLastName, setNewLastName] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
+  const [usernameError, setUsernameError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
   const [showUsernameModal, setShowUsernameModal] = useState(false);
   const [showNameModal, setShowNameModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
@@ -36,37 +36,69 @@ const Settings = () => {
         }
       } catch (error) {
         setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchUserData();
   }, []);
 
   const handleChangeUsername = async () => {
+    if (!newUsername.trim()) {
+      setUsernameError('Username cannot be empty');
+      return;
+    }
     try {
-      await AsyncStorage.setItem('userName', newUsername);
+      const userId = auth().currentUser.uid;
+      await firestore().collection('users').doc(userId).update({
+        userName: newUsername,
+      });
+      setUserData({...userData, userName: newUsername});
+      setSuccess('Username updated successfully');
       setShowUsernameModal(false);
+      setUsernameError('');
     } catch (error) {
-      setError('Error changing username');
+      setUsernameError('Error changing username');
     }
   };
 
   const handleChangeName = async () => {
+    if (!newFirstName.trim() || !newLastName.trim()) {
+      setNameError('First name and last name cannot be empty');
+      return;
+    }
     try {
-      await AsyncStorage.setItem('firstName', newFirstName);
-      await AsyncStorage.setItem('lastName', newLastName);
+      const userId = auth().currentUser.uid;
+      await firestore().collection('users').doc(userId).update({
+        firstName: newFirstName,
+        lastName: newLastName,
+      });
+      setUserData({
+        ...userData,
+        firstName: newFirstName,
+        lastName: newLastName,
+      });
+      setSuccess('Name updated successfully');
       setShowNameModal(false);
+      setNameError('');
     } catch (error) {
-      setError('Error changing name');
+      setNameError('Error changing name');
     }
   };
 
   const handleChangePassword = async () => {
+    if (!newPassword.trim()) {
+      setPasswordError('Password cannot be empty');
+      return;
+    }
     try {
       const user = auth().currentUser;
       await user.updatePassword(newPassword);
+      setSuccess('Password changed successfully');
       setShowPasswordModal(false);
+      setPasswordError('');
     } catch (error) {
-      setError('Error changing password');
+      setPasswordError('Error changing password');
     }
   };
 
@@ -74,19 +106,24 @@ const Settings = () => {
     try {
       await auth().signOut();
       await AsyncStorage.removeItem('user');
-      navigate.navigate('Home');
+      navigate('Home');
     } catch (error) {
-      setError('Error logging out' + error);
+      setError('Error logging out');
     }
   };
 
   const formatDate = date => {
-    if (!date) {
-      return '';
-    }
     const options = {year: 'numeric', month: 'long', day: 'numeric'};
     return new Date(date).toLocaleDateString(undefined, options);
   };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#8a2be2" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -111,107 +148,82 @@ const Settings = () => {
           </View>
         </>
       )}
-      <TouchableOpacity
+      {success ? <Text style={styles.success}>{success}</Text> : null}
+      <CustomButton
+        title="Change Username"
+        onPress={() => setShowUsernameModal(true)}
         style={styles.button}
-        onPress={() => setShowUsernameModal(true)}>
-        <Text style={styles.buttonText}>Change Username</Text>
-      </TouchableOpacity>
-      <Modal
+      />
+      <CustomModal
         visible={showUsernameModal}
-        animationType="slide"
-        transparent={true}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Change Username</Text>
-            <TextInput
-              style={styles.modalInput}
-              placeholder="New Username"
-              value={newUsername}
-              onChangeText={setNewUsername}
-              autoCapitalize="none"
-            />
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleChangeUsername}>
-              <Text style={styles.modalButtonText}>Save</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setShowUsernameModal(false)}>
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      <TouchableOpacity
+        title="Change Username"
+        onClose={() => setShowUsernameModal(false)}
+        error={usernameError}>
+        <CustomTextInput
+          placeholder="New Username"
+          value={newUsername}
+          onChangeText={setNewUsername}
+        />
+        <CustomButton
+          title="Save"
+          onPress={handleChangeUsername}
+          style={styles.modalButton}
+        />
+      </CustomModal>
+      <CustomButton
+        title="Change Name"
+        onPress={() => setShowNameModal(true)}
         style={styles.button}
-        onPress={() => setShowNameModal(true)}>
-        <Text style={styles.buttonText}>Change Name</Text>
-      </TouchableOpacity>
-      <Modal visible={showNameModal} animationType="slide" transparent={true}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Change Name</Text>
-            <TextInput
-              style={styles.modalInput}
-              placeholder="New First Name"
-              value={newFirstName}
-              onChangeText={setNewFirstName}
-            />
-            <TextInput
-              style={styles.modalInput}
-              placeholder="New Last Name"
-              value={newLastName}
-              onChangeText={setNewLastName}
-            />
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleChangeName}>
-              <Text style={styles.modalButtonText}>Save</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setShowNameModal(false)}>
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      <TouchableOpacity
+      />
+      <CustomModal
+        visible={showNameModal}
+        title="Change Name"
+        onClose={() => setShowNameModal(false)}
+        error={nameError}>
+        <CustomTextInput
+          placeholder="New First Name"
+          value={newFirstName}
+          onChangeText={setNewFirstName}
+        />
+        <CustomTextInput
+          placeholder="New Last Name"
+          value={newLastName}
+          onChangeText={setNewLastName}
+        />
+        <CustomButton
+          title="Save"
+          onPress={handleChangeName}
+          style={styles.modalButton}
+        />
+      </CustomModal>
+      <CustomButton
+        title="Change Password"
+        onPress={() => setShowPasswordModal(true)}
         style={styles.button}
-        onPress={() => setShowPasswordModal(true)}>
-        <Text style={styles.buttonText}>Change Password</Text>
-      </TouchableOpacity>
-      <Modal
+      />
+      <CustomModal
         visible={showPasswordModal}
-        animationType="slide"
-        transparent={true}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>Change Password</Text>
-            <TextInput
-              style={styles.modalInput}
-              placeholder="New Password"
-              value={newPassword}
-              onChangeText={setNewPassword}
-              secureTextEntry
-            />
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleChangePassword}>
-              <Text style={styles.modalButtonText}>Save</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setShowPasswordModal(false)}>
-              <Text style={styles.closeButtonText}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.logoutButtonText}>Logout</Text>
-      </TouchableOpacity>
+        title="Change Password"
+        onClose={() => setShowPasswordModal(false)}
+        error={passwordError}>
+        <CustomTextInput
+          placeholder="New Password"
+          value={newPassword}
+          onChangeText={setNewPassword}
+          secureTextEntry
+        />
+        <CustomButton
+          title="Save"
+          onPress={handleChangePassword}
+          style={styles.modalButton}
+        />
+      </CustomModal>
+      <CustomButton
+        title="Logout"
+        onPress={handleLogout}
+        style={[styles.button, styles.logoutButton]}
+        textStyle={styles.logoutButtonText}
+      />
     </View>
   );
 };
@@ -248,90 +260,21 @@ const styles = StyleSheet.create({
     color: '#4A4A4A',
   },
   button: {
-    width: '100%',
-    height: 45,
     backgroundColor: '#8a2be2',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    marginBottom: 10,
-    paddingHorizontal: 15,
   },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
+  modalButton: {
+    backgroundColor: '#8a2be2',
   },
   logoutButton: {
-    width: '100%',
-    height: 45,
     backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
     marginTop: 20,
-    paddingHorizontal: 15,
   },
   logoutButtonText: {
     color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: '80%',
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    padding: 20,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    textAlign: 'center',
-    color: '#4A4A4A',
-  },
-  modalInput: {
-    width: '100%',
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    marginBottom: 15,
-    color: '#4A4A4A',
-  },
-  modalButton: {
-    width: '100%',
-    height: 40,
-    backgroundColor: '#8a2be2',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  modalButtonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  closeButton: {
-    width: '100%',
-    height: 40,
-    backgroundColor: '#ccc',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  closeButtonText: {
-    color: '#4A4A4A',
-    fontWeight: 'bold',
-    fontSize: 16,
+  success: {
+    color: 'green',
+    marginBottom: 20,
   },
   error: {
     color: 'red',

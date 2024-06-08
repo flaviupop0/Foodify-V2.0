@@ -7,10 +7,12 @@ import RegisterScreen from './app/auth/RegisterScreen';
 import HomeScreen from './app/HomeScreen';
 import ForgotPassword from './app/auth/ForgotPassword';
 import LoggedInScreen from './app/LoggedInScreen';
+import {ActivityIndicator, View} from 'react-native';
+import {navigationRef} from './app/components/NavigationRef/NavigationService';
 
 const Stack = createStackNavigator();
 
-export default function App(): React.ReactElement {
+export default function App() {
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
@@ -31,15 +33,25 @@ export default function App(): React.ReactElement {
     checkUserLoggedIn();
   }, []);
 
+  if (loading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#8a2be2" />
+      </View>
+    );
+  }
+
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef}>
       <Stack.Navigator>
         {user ? (
-          <Stack.Screen
-            name="LoggedIn"
-            component={LoggedInScreen}
-            options={{headerShown: false}}
-          />
+          <>
+            <Stack.Screen
+              name="LoggedIn"
+              component={LoggedInScreen}
+              options={{headerShown: false}}
+            />
+          </>
         ) : (
           <>
             <Stack.Screen

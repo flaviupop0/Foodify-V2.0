@@ -27,7 +27,6 @@ const AuthScreen = () => {
   const handleLogin = async () => {
     try {
       const {user} = await auth().signInWithEmailAndPassword(email, password);
-      console.log('User logged in successfully!');
       await AsyncStorage.setItem('user', JSON.stringify(user));
       navigation.navigate('LoggedIn');
     } catch (err) {
