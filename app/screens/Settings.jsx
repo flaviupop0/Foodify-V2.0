@@ -30,13 +30,12 @@ const Settings = () => {
         const userId = auth().currentUser.uid;
         const userDoc = await firestore().collection('users').doc(userId).get();
         if (userDoc.exists) {
-          setUserData(userDoc.data);
-          console.log(userData);
+          setUserData(userDoc.data());
         } else {
           setError('User data not found');
         }
       } catch (error) {
-        console.log(error.message);
+        setError(error.message);
       }
     };
     fetchUserData();
@@ -44,7 +43,7 @@ const Settings = () => {
 
   const handleChangeUsername = async () => {
     try {
-      await AsyncStorage.setItem('username', newUsername);
+      await AsyncStorage.setItem('userName', newUsername);
       setShowUsernameModal(false);
     } catch (error) {
       setError('Error changing username');
@@ -75,10 +74,18 @@ const Settings = () => {
     try {
       await auth().signOut();
       await AsyncStorage.removeItem('user');
-      navigate.navigate('Home', {screen: 'LoggedIn'});
+      navigate.navigate('Home');
     } catch (error) {
-      setError('Error logging out');
+      setError('Error logging out' + error);
     }
+  };
+
+  const formatDate = date => {
+    if (!date) {
+      return '';
+    }
+    const options = {year: 'numeric', month: 'long', day: 'numeric'};
+    return new Date(date).toLocaleDateString(undefined, options);
   };
 
   return (
@@ -90,7 +97,7 @@ const Settings = () => {
         <>
           <View style={styles.userInfoContainer}>
             <Text style={styles.userInfoText}>
-              Current Username: {userData?.username}
+              Current Username: {userData?.userName}
             </Text>
             <Text style={styles.userInfoText}>
               Current First Name: {userData?.firstName}
@@ -99,7 +106,7 @@ const Settings = () => {
               Current Last Name: {userData?.lastName}
             </Text>
             <Text style={styles.userInfoText}>
-              Current Birthday: {userData?.birthday}
+              Current Birthday: {formatDate(userData?.dateOfBirth)}
             </Text>
           </View>
         </>
@@ -121,6 +128,7 @@ const Settings = () => {
               placeholder="New Username"
               value={newUsername}
               onChangeText={setNewUsername}
+              autoCapitalize="none"
             />
             <TouchableOpacity
               style={styles.modalButton}
@@ -202,7 +210,7 @@ const Settings = () => {
         </View>
       </Modal>
       <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Logout</Text>
+        <Text style={styles.logoutButtonText}>Logout</Text>
       </TouchableOpacity>
     </View>
   );
@@ -214,36 +222,60 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
   },
   title: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: '#4A4A4A',
+  },
+  userInfoContainer: {
+    marginBottom: 30,
+    width: '100%',
+    padding: 15,
+    backgroundColor: '#fff',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 5,
+  },
+  userInfoText: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: '#4A4A4A',
   },
   button: {
     width: '100%',
-    height: 50,
+    height: 45,
     backgroundColor: '#8a2be2',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
+    borderRadius: 10,
     marginBottom: 10,
+    paddingHorizontal: 15,
   },
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-    fontSize: 18,
+    fontSize: 16,
   },
   logoutButton: {
     width: '100%',
-    height: 50,
+    height: 45,
     backgroundColor: 'red',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 25,
-    marginBottom: 20,
+    borderRadius: 10,
+    marginTop: 20,
+    paddingHorizontal: 15,
+  },
+  logoutButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   modalContainer: {
     flex: 1,
@@ -262,6 +294,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 10,
     textAlign: 'center',
+    color: '#4A4A4A',
   },
   modalInput: {
     width: '100%',
@@ -270,7 +303,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    marginBottom: 10,
+    marginBottom: 15,
+    color: '#4A4A4A',
   },
   modalButton: {
     width: '100%',
@@ -294,16 +328,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
   },
-  userInfoContainer: {
-    marginBottom: 20,
-  },
-  userInfoText: {
-    fontSize: 16,
-    marginBottom: 10,
-    color: '#333',
-  },
   closeButtonText: {
-    color: '#333',
+    color: '#4A4A4A',
     fontWeight: 'bold',
     fontSize: 16,
   },

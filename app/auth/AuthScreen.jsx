@@ -72,6 +72,7 @@ const AuthScreen = () => {
             onChangeText={setEmail}
             keyboardType="email-address"
             placeholderTextColor="#999"
+            autoCapitalize="none"
           />
           <TextInput
             style={styles.input}
@@ -80,6 +81,7 @@ const AuthScreen = () => {
             onChangeText={setPassword}
             secureTextEntry
             placeholderTextColor="#999"
+            autoCapitalize="none"
           />
         </View>
         <TouchableOpacity
