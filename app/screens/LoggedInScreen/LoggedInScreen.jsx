@@ -1,12 +1,12 @@
 import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import NewsFeedScreen from './screens/NewsFeed/NewsFeed';
-import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
-import MessagesScreen from './screens/Messages/Messages';
-import NotificationsScreen from './screens/Notifications/Notifications';
-import SettingsScreen from './screens/Settings/Settings';
+import NewsFeedScreen from '../NewsFeed/NewsFeed';
+import ProfileScreen from '../ProfileScreen/ProfileScreen';
+import MessagesScreen from '../Messages/Messages';
+import NotificationsScreen from '../Notifications/Notifications';
+import SettingsScreen from '../Settings/Settings';
+import styles from './styles';
 
 const Tab = createBottomTabNavigator();
 
@@ -76,19 +76,5 @@ const LoggedInScreen = () => {
     </Tab.Navigator>
   );
 };
-
-const styles = StyleSheet.create({
-  tabBar: {
-    backgroundColor: '#f8f8f8',
-    borderTopWidth: 1,
-    borderTopColor: '#ddd',
-    paddingBottom: 5,
-    height: 60,
-  },
-  tabBarLabel: {
-    fontSize: 12,
-    paddingBottom: 5,
-  },
-});
 
 export default LoggedInScreen;
