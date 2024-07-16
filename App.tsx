@@ -1,16 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import AuthScreen from './app/auth/AuthScreen';
-import RegisterScreen from './app/auth/RegisterScreen';
-import HomeScreen from './app/HomeScreen';
-import ForgotPassword from './app/auth/ForgotPassword';
-import LoggedInScreen from './app/LoggedInScreen';
+import MainNavigation from './app/navigation/MainNavigation';
 import {ActivityIndicator, View} from 'react-native';
-import {navigationRef} from './app/components/NavigationRef/NavigationService';
-
-const Stack = createStackNavigator();
+import {NavigationContainer} from '@react-navigation/native';
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -42,46 +34,8 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer ref={navigationRef}>
-      <Stack.Navigator>
-        {user ? (
-          <>
-            <Stack.Screen
-              name="LoggedIn"
-              component={LoggedInScreen}
-              options={{headerShown: false}}
-            />
-          </>
-        ) : (
-          <>
-            <Stack.Screen
-              name="Home"
-              component={HomeScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Auth"
-              component={AuthScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Forgot"
-              component={ForgotPassword}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="Register"
-              component={RegisterScreen}
-              options={{headerShown: false}}
-            />
-            <Stack.Screen
-              name="LoggedIn"
-              component={LoggedInScreen}
-              options={{headerShown: false}}
-            />
-          </>
-        )}
-      </Stack.Navigator>
+    <NavigationContainer>
+      <MainNavigation />
     </NavigationContainer>
   );
 }

@@ -2,11 +2,11 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {StyleSheet} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import NewsFeedScreen from './screens/NewsFeed';
-import ProfileScreen from './screens/ProfileScreen';
-import MessagesScreen from './screens/Messages';
-import NotificationsScreen from './screens/Notifications';
-import SettingsScreen from './screens/Settings';
+import NewsFeedScreen from './screens/NewsFeed/NewsFeed';
+import ProfileScreen from './screens/ProfileScreen/ProfileScreen';
+import MessagesScreen from './screens/Messages/Messages';
+import NotificationsScreen from './screens/Notifications/Notifications';
+import SettingsScreen from './screens/Settings/Settings';
 
 const Tab = createBottomTabNavigator();
 

@@ -1,14 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, StyleSheet, ActivityIndicator} from 'react-native';
+import {View, Text, ActivityIndicator} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
-import CustomButton from '../components/CustomButton/CustomButton';
-import CustomModal from '../components/CustomModal/CustomModal';
-import CustomTextInput from '../components/CustomTextInput/CustomTextInput';
-import {navigate} from '../components/NavigationRef/NavigationService';
+import CustomButton from '../../components/CustomButton/CustomButton';
+import CustomModal from '../../components/CustomModal/CustomModal';
+import CustomTextInput from '../../components/CustomTextInput/CustomTextInput';
+import {Routes} from '../../navigation/Routes';
+import styles from './style';
 
-const Settings = () => {
+const Settings = ({navigation}) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [newUsername, setNewUsername] = useState('');
@@ -106,7 +107,7 @@ const Settings = () => {
     try {
       await auth().signOut();
       await AsyncStorage.removeItem('user');
-      navigate('Home');
+      navigation.navigate(Routes.Home);
     } catch (error) {
       setError('Error logging out');
     }
@@ -227,59 +228,5 @@ const Settings = () => {
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    backgroundColor: '#f5f5f5',
-  },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#4A4A4A',
-  },
-  userInfoContainer: {
-    marginBottom: 30,
-    width: '100%',
-    padding: 15,
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-    elevation: 5,
-  },
-  userInfoText: {
-    fontSize: 16,
-    marginBottom: 10,
-    color: '#4A4A4A',
-  },
-  button: {
-    backgroundColor: '#8a2be2',
-  },
-  modalButton: {
-    backgroundColor: '#8a2be2',
-  },
-  logoutButton: {
-    backgroundColor: 'red',
-    marginTop: 20,
-  },
-  logoutButtonText: {
-    color: '#fff',
-  },
-  success: {
-    color: 'green',
-    marginBottom: 20,
-  },
-  error: {
-    color: 'red',
-    marginBottom: 20,
-  },
-});
 
 export default Settings;
