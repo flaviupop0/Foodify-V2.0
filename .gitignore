@@ -21,6 +21,9 @@ DerivedData
 *.ipa
 *.xcuserstate
 **/.xcode.env.local
+**/GoogleService-Info.plist
+**/foodify0766/GoogleService-Info.plist
+ios/GoogleService-Info.plist
 
 # Android/IntelliJ
 #
