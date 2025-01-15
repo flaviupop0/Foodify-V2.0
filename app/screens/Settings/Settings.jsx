@@ -14,12 +14,10 @@ import {Routes} from '../../navigation/Routes';
 import styles from './style';
 import CustomError from '../../components/CustomError/CustomError';
 import BackButton from '../../components/BackButton/BackButton';
-import {useNavigation} from '@react-navigation/native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {scaleFontSize} from '../../../assets/styles/scaling';
 
 const Settings = ({navigation}) => {
-  const correctNavigation = navigation || useNavigation();
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [newUsername, setNewUsername] = useState('');
@@ -118,16 +116,11 @@ const Settings = ({navigation}) => {
     try {
       await auth().signOut();
       await AsyncStorage.removeItem('user');
-      correctNavigation.replace(Routes.Login);
+      navigation.replace(Routes.Login);
     } catch (error) {
       setError('Error logging out');
       console.log(error);
     }
-  };
-
-  const formatDate = date => {
-    const options = {year: 'numeric', month: 'long', day: 'numeric'};
-    return new Date(date).toLocaleDateString(undefined, options);
   };
 
   if (loading) {
@@ -141,7 +134,7 @@ const Settings = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.titleRow}>
-        <BackButton />
+        <BackButton onPress={() => navigation.closeDrawer()} />
         <Text style={styles.titleText}>Hi, {userData?.firstName}</Text>
       </View>
       <Image
@@ -151,9 +144,46 @@ const Settings = ({navigation}) => {
       />
       <Text style={styles.email}>{userData?.email}</Text>
       {error ? <CustomError error={error} /> : null}
-      <TouchableOpacity onPress={handleLogout} style={styles.options}>
-        <Ionicons name="power" color="#d1172c" size={scaleFontSize(30)} />
+      <TouchableOpacity style={styles.options}>
+        <Ionicons
+          name="paper-plane-outline"
+          color="grey"
+          size={scaleFontSize(25)}
+        />
+        <Text style={styles.subtitle}>Messages</Text>
+        <Ionicons name="arrow-forward" color="grey" size={scaleFontSize(25)} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.options}>
+        <Ionicons name="person-outline" color="grey" size={scaleFontSize(25)} />
+        <Text style={styles.subtitle}>My profile</Text>
+        <Ionicons name="arrow-forward" color="grey" size={scaleFontSize(25)} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.options}>
+        <Ionicons
+          name="settings-outline"
+          color="grey"
+          size={scaleFontSize(25)}
+        />
+        <Text style={styles.subtitle}>Settings</Text>
+        <Ionicons name="arrow-forward" color="grey" size={scaleFontSize(25)} />
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.options}>
+        <Ionicons
+          name="bookmark-outline"
+          color="grey"
+          size={scaleFontSize(25)}
+        />
+        <Text style={styles.subtitle}>Bookmarks</Text>
+        <Ionicons name="arrow-forward" color="grey" size={scaleFontSize(25)} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleLogout} style={styles.optionsLogOut}>
+        <Ionicons name="power" color="#d1172c" size={scaleFontSize(25)} />
         <Text style={[styles.subtitle, {color: '#d1172c'}]}>Log out</Text>
+        <Ionicons
+          name="arrow-forward"
+          color="#d1172c"
+          size={scaleFontSize(25)}
+        />
       </TouchableOpacity>
     </SafeAreaView>
   );

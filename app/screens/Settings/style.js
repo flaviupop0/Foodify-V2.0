@@ -87,10 +87,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-start',
     marginLeft: horizontalScale(20),
+    justifyContent: 'space-between',
+    width: '90%',
+    marginBottom: horizontalScale(10),
   },
   subtitle: {
     marginLeft: verticalScale(10),
-    fontSize: scaleFontSize(15),
+    fontSize: scaleFontSize(16),
+    flex: 1,
+  },
+  optionsLogOut: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginLeft: horizontalScale(20),
+    position: 'absolute',
+    bottom: verticalScale(30),
+    width: '90%',
   },
 });
 export default styles;

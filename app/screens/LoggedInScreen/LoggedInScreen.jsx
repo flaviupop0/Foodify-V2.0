@@ -90,7 +90,7 @@ const LoggedInScreen = () => {
   return (
     <Drawer.Navigator
       screenOptions={{headerShown: false, drawerPosition: 'right'}}
-      drawerContent={() => <SettingsScreen />}
+      drawerContent={props => <SettingsScreen {...props} />}
       drawerPosition="right"
       drawerStyle={{
         backgroundColor: '#121C2C',
