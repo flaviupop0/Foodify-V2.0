@@ -48,6 +48,8 @@ const Settings = ({navigation}) => {
             size={scaleFontSize(25)}
           />
         </TouchableOpacity>
+        <View style={styles.border} />
+
         <TouchableOpacity style={styles.options}>
           <Ionicons
             name="lock-closed-outline"
@@ -61,6 +63,7 @@ const Settings = ({navigation}) => {
             size={scaleFontSize(25)}
           />
         </TouchableOpacity>
+        <View style={styles.border} />
         <TouchableOpacity style={styles.options}>
           <Ionicons
             name="trash-outline"

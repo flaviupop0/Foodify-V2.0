@@ -45,6 +45,14 @@ const styles = StyleSheet.create({
     fontSize: scaleFontSize(16),
     flex: 1,
   },
+  border: {
+    width: '90%',
+    borderWidth: 1,
+    borderColor: '#D9D9D9',
+    flex: 1,
+    alignSelf: 'center',
+    marginTop: verticalScale(10),
+  },
 });
 
 export default styles;
