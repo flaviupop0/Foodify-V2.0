@@ -9,7 +9,7 @@ import {
   Keyboard,
   Image,
 } from 'react-native';
-import auth from '@react-native-firebase/auth';
+import auth, {sendEmailVerification} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import DatePicker from 'react-native-date-picker';
@@ -84,6 +84,7 @@ const RegisterScreen = ({navigation}) => {
         profilePicture: defaultProfilePictureURL,
       });
       navigation.navigate('Login');
+      await sendEmailVerification(user);
       setIsPasswordViewOpen(false);
     } catch (err) {
       let errorMessage = err.message;

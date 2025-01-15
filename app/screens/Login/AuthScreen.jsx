@@ -24,6 +24,14 @@ const AuthScreen = ({navigation, onLogin}) => {
   const handleLogin = async () => {
     try {
       const {user} = await auth().signInWithEmailAndPassword(email, password);
+      console.log(user);
+      if (!user.emailVerified) {
+        setError('Account not activated');
+        setTimeout(() => {
+          setError('');
+        }, 4000);
+        return;
+      }
       await AsyncStorage.setItem('user', JSON.stringify(user));
       onLogin();
     } catch (err) {
