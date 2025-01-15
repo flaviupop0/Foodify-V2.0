@@ -89,9 +89,12 @@ const BottomTabNavigator = () => {
 const LoggedInScreen = () => {
   return (
     <Drawer.Navigator
-      screenOptions={{headerShown: false, drawerPosition: 'right'}}
+      screenOptions={{
+        headerShown: false,
+        drawerPosition: 'right',
+        drawerType: 'front',
+      }}
       drawerContent={props => <SettingsScreen {...props} />}
-      drawerPosition="right"
       drawerStyle={{
         backgroundColor: '#121C2C',
         width: Dimensions.get('window').width * 0.85,
