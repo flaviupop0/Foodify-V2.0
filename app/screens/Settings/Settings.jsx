@@ -17,7 +17,7 @@ import BackButton from '../../components/BackButton/BackButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {scaleFontSize} from '../../../assets/styles/scaling';
 
-const Settings = ({navigation}) => {
+const Settings = ({navigation, onLogout}) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
   const [newUsername, setNewUsername] = useState('');
@@ -40,7 +40,6 @@ const Settings = ({navigation}) => {
         const userDoc = await firestore().collection('users').doc(userId).get();
         if (userDoc.exists) {
           setUserData(userDoc.data());
-          console.log('User data:', userData);
         } else {
           setError('User data not found');
         }
@@ -116,7 +115,7 @@ const Settings = ({navigation}) => {
     try {
       await auth().signOut();
       await AsyncStorage.removeItem('user');
-      navigation.replace(Routes.Login);
+      onLogout();
     } catch (error) {
       setError('Error logging out');
       console.log(error);

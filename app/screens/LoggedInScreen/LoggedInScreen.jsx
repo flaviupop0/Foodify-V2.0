@@ -86,7 +86,7 @@ const BottomTabNavigator = () => {
   );
 };
 
-const LoggedInScreen = () => {
+const LoggedInScreen = ({onLogout}) => {
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -94,7 +94,7 @@ const LoggedInScreen = () => {
         drawerPosition: 'right',
         drawerType: 'front',
       }}
-      drawerContent={props => <SettingsScreen {...props} />}
+      drawerContent={props => <SettingsScreen {...props} onLogout={onLogout} />}
       drawerStyle={{
         backgroundColor: '#121C2C',
         width: Dimensions.get('window').width * 0.85,

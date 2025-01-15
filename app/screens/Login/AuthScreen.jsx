@@ -13,8 +13,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Routes} from '../../navigation/Routes';
 import styles from './style';
 import BackButton from '../../components/BackButton/BackButton';
+import CustomError from '../../components/CustomError/CustomError';
 
-const AuthScreen = ({navigation}) => {
+const AuthScreen = ({navigation, onLogin}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -24,13 +25,16 @@ const AuthScreen = ({navigation}) => {
     try {
       const {user} = await auth().signInWithEmailAndPassword(email, password);
       await AsyncStorage.setItem('user', JSON.stringify(user));
-      navigation.navigate(Routes.LoggedInScreen);
+      onLogin();
     } catch (err) {
       let errorMessage = err.message;
       if (errorMessage.includes(']')) {
         errorMessage = errorMessage.split(']')[1].trim();
       }
       setError('The e-mail or password is incorrect');
+      setTimeout(() => {
+        setError('');
+      }, 4000);
     }
   };
 
@@ -61,7 +65,6 @@ const AuthScreen = ({navigation}) => {
       </View>
       <View style={styles.container}>
         <Text style={styles.title}>Log in</Text>
-        {error ? <Text style={styles.error}>{error}</Text> : null}
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
@@ -81,6 +84,7 @@ const AuthScreen = ({navigation}) => {
             placeholderTextColor="#999"
             autoCapitalize="none"
           />
+          {error ? <CustomError error={error} /> : null}
         </View>
         <TouchableOpacity
           activeOpacity={0.8}

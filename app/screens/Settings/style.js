@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     lineHeight: scaleFontSize(30),
   },
   email: {
-    marginBottom: verticalScale(20),
+    marginBottom: verticalScale(30),
     fontSize: scaleFontSize(16),
   },
   options: {
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     marginLeft: horizontalScale(20),
     justifyContent: 'space-between',
     width: '90%',
-    marginBottom: horizontalScale(10),
+    marginBottom: horizontalScale(25),
   },
   subtitle: {
     marginLeft: verticalScale(10),
