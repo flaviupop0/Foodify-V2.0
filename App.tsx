@@ -16,7 +16,7 @@ export default function App() {
           setUser(JSON.parse(storedUser));
         }
       } catch (error) {
-        console.error('Error retrieving user data from AsyncStorage:', error);
+        console.error('Error retrieving user data from AsyncStorage:', error); 
       } finally {
         setLoading(false);
       }
