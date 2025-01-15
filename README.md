@@ -2,7 +2,7 @@ This is a new [**React Native**](https://reactnative.dev) project, bootstrapped 
 
 # Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+> **Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 
 ## Step 1: Start the Metro Server
 
@@ -77,3 +77,15 @@ To learn more about React Native, take a look at the following resources:
 - [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
 - [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
 - [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+
+# Now here are the real steps to install this project :D
+
+1. First, you need to clone this project using git clone.
+2. Make sure you have a firebase account setup with a project
+3. Download the GoogleService-info.plist
+4. Open xCode and add it into the project
+5. Run npm install
+6. Navigate to ios folder and run pod install
+7. Start the project 💪
+   P.S. There might be some issues with the fonts, if you have those kind of issues, remove the resources file from xCode, remove link-assets-manifest.json from ios file, try to reapply the fonts and then it should work.
+   You may reapply the fonts by using npx react-native-asset command. After this, you must rebuild the app.
