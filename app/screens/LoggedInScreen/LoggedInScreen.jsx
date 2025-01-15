@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import NewsFeedScreen from '../NewsFeed/NewsFeed';
 import NotificationsScreen from '../Notifications/Notifications';
-import SettingsScreen from '../Settings/Settings';
+import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import {Dimensions, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 
@@ -58,7 +58,7 @@ const BottomTabNavigator = () => {
       />
       <Tab.Screen
         name="Menu"
-        component={SettingsScreen}
+        component={HamburgerMenu}
         options={({navigation}) => ({
           tabBarButton: ({focused}) => (
             <TouchableOpacity
@@ -94,7 +94,7 @@ const LoggedInScreen = ({onLogout}) => {
         drawerPosition: 'right',
         drawerType: 'front',
       }}
-      drawerContent={props => <SettingsScreen {...props} onLogout={onLogout} />}
+      drawerContent={props => <HamburgerMenu {...props} onLogout={onLogout} />}
       drawerStyle={{
         backgroundColor: '#121C2C',
         width: Dimensions.get('window').width * 0.85,

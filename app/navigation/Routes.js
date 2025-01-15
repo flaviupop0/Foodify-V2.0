@@ -5,4 +5,5 @@ export const Routes = {
   ForgetPassword: 'Forget Password',
   LoggedInScreen: 'LoggedIn Screen',
   Menu: 'Menu',
+  Settings: 'Settings',
 };
