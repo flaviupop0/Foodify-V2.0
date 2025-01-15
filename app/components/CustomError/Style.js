@@ -14,6 +14,7 @@ const style = StyleSheet.create({
     width: '80%',
     alignSelf: 'center',
     marginTop: verticalScale(10),
+    marginBottom: verticalScale(20),
   },
   verticalRedLine: {
     backgroundColor: '#D10925',

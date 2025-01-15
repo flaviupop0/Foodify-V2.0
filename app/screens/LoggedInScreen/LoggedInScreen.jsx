@@ -5,7 +5,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import NewsFeedScreen from '../NewsFeed/NewsFeed';
 import NotificationsScreen from '../Notifications/Notifications';
 import SettingsScreen from '../Settings/Settings';
-import {Dimensions, Text} from 'react-native';
+import {Dimensions, Text, TouchableOpacity} from 'react-native';
 import styles from './styles';
 
 const Tab = createBottomTabNavigator();
@@ -57,23 +57,28 @@ const BottomTabNavigator = () => {
         options={{headerShown: false}}
       />
       <Tab.Screen
-        name="Settings"
+        name="Menu"
         component={SettingsScreen}
         options={({navigation}) => ({
-          tabBarIcon: ({focused, color, size}) => (
-            <Ionicons
-              name={focused ? 'menu' : 'menu-outline'}
-              size={size}
-              color={color}
-              onPress={() => navigation.openDrawer()}
-            />
-          ),
-          tabBarLabel: ({color}) => (
-            <Text
-              style={[styles.tabBarLabel, {color: color}]}
+          tabBarButton: ({focused}) => (
+            <TouchableOpacity
+              style={{
+                marginLeft: Dimensions.get('window').width * 0.15,
+                marginTop: Dimensions.get('window').height * 0.004,
+              }}
               onPress={() => navigation.openDrawer()}>
-              Menu
-            </Text>
+              <Ionicons
+                name={focused ? 'menu' : 'menu-outline'}
+                size={30}
+                color={'grey'}
+                onPress={() => navigation.openDrawer()}
+              />
+              <Text
+                style={[styles.tabBarLabel, {color: 'grey'}]}
+                onPress={() => navigation.openDrawer()}>
+                Menu
+              </Text>
+            </TouchableOpacity>
           ),
         })}
       />

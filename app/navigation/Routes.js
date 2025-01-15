@@ -4,4 +4,5 @@ export const Routes = {
   Home: 'Home',
   ForgetPassword: 'Forget Password',
   LoggedInScreen: 'LoggedIn Screen',
+  Menu: 'Menu',
 };

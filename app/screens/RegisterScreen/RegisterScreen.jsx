@@ -7,8 +7,10 @@ import {
   SafeAreaView,
   TouchableWithoutFeedback,
   Keyboard,
+  Image,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
+import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import DatePicker from 'react-native-date-picker';
 import globalStyles from '../../../assets/styles/globalStyles';
@@ -38,6 +40,18 @@ const RegisterScreen = ({navigation}) => {
     }, 4000);
   };
 
+  const fetchBase64 = async filePath => {
+    const response = await fetch(filePath);
+    const blob = await response.blob();
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
   const handleRegister = async () => {
     try {
       if (password !== confirmPassword) {
@@ -54,12 +68,20 @@ const RegisterScreen = ({navigation}) => {
         email,
         password,
       );
+      const defaultPictureAsset = Image.resolveAssetSource(
+        require('../../../assets/Default_pfp.jpg'),
+      ).uri;
+      const defaultPictureBase64 = await fetchBase64(defaultPictureAsset);
+      const storageRef = storage().ref(`profilePictures/${user.uid}.jpg`);
+      await storageRef.putString(defaultPictureBase64, 'base64');
+      const defaultProfilePictureURL = await storageRef.getDownloadURL();
       await firestore().collection('users').doc(user.uid).set({
         firstName: firstName,
         lastName: lastName,
         email: email,
         userName: userName,
         dateOfBirth: dateOfBirth.toISOString(),
+        profilePicture: defaultProfilePictureURL,
       });
       navigation.navigate('Login');
       setIsPasswordViewOpen(false);
