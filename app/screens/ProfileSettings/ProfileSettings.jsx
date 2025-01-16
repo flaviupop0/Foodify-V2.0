@@ -58,6 +58,18 @@ const ProfileSettings = ({navigation}) => {
     }
   };
 
+  const fetchBase64 = async filePath => {
+    const response = await fetch(filePath);
+    const blob = await response.blob();
+
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = reject;
+      reader.readAsDataURL(blob);
+    });
+  };
+
   const handleOptionSelect = async option => {
     let hasPermission = false;
 
@@ -115,12 +127,67 @@ const ProfileSettings = ({navigation}) => {
             : PERMISSIONS.ANDROID.CAMERA,
         );
         if (hasPermission) {
-          console.log('Take a photo pressed');
+          try {
+            const capturedImage = await ImageCropPicker.openCamera({
+              mediaType: 'photo',
+              cropping: true,
+              width: 800,
+              height: 800,
+              includeBase64: false,
+              cropperCircleOverlay: true,
+            });
+
+            const selectedImage = capturedImage.path;
+
+            const storageRef = storage().ref(
+              `profilePictures/${userDataAuth.uid}.jpg`,
+            );
+            await storageRef.putFile(selectedImage);
+
+            const profilePictureURL = await storageRef.getDownloadURL();
+
+            await firestore()
+              .collection('users')
+              .doc(userDataAuth.uid)
+              .set({profilePicture: profilePictureURL}, {merge: true});
+
+            dispatch(updateUserProfilePicture(profilePictureURL));
+
+            setSuccessMessage('Profile picture updated!');
+            openSuccessModal();
+          } catch (error) {
+            if (error.message === 'User cancelled image selection') {
+              console.log('User cancelled the image selection');
+            } else {
+              console.error(
+                'Error capturing and uploading image:',
+                error.message,
+              );
+            }
+          }
         }
         break;
 
       case 'remove':
-        console.log('Remove photo pressed');
+        const defaultPictureAsset = Image.resolveAssetSource(
+          require('../../../assets/Default_pfp.jpg'),
+        ).uri;
+        const defaultPictureBase64 = await fetchBase64(defaultPictureAsset);
+        const storageRef = storage().ref(
+          `profilePictures/${userDataAuth.uid}.jpg`,
+        );
+        await storageRef.putString(defaultPictureBase64, 'base64');
+        const profilePictureURL = await storageRef.getDownloadURL();
+
+        await firestore()
+          .collection('users')
+          .doc(userDataAuth.uid)
+          .set({profilePicture: profilePictureURL}, {merge: true});
+
+        dispatch(updateUserProfilePicture(profilePictureURL));
+
+        setSuccessMessage('Profile picture deleted successfully!');
+        openSuccessModal();
         break;
 
       default:
