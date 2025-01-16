@@ -12,12 +12,15 @@ import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {useSelector, useDispatch} from 'react-redux';
 import {updateUserProfilePicture} from '../../redux/slices/userSlice';
+import CustomSuccessModal from '../../components/SuccessPopUp/SuccessPopUp';
 
 const ProfileSettings = ({navigation}) => {
   const user = useSelector(state => state.user.profile);
   const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [userDataAuth, setUserDataAuth] = useState(null);
+  const [successModal, setSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     const getUserData = async () => {
@@ -31,6 +34,13 @@ const ProfileSettings = ({navigation}) => {
     };
     getUserData();
   }, []);
+
+  const openSuccessModal = () => {
+    setSuccessModal(true);
+    setTimeout(() => {
+      setSuccessModal(false);
+    }, 4000);
+  };
 
   const checkPermission = async permissionType => {
     const status = await check(permissionType);
@@ -83,6 +93,8 @@ const ProfileSettings = ({navigation}) => {
               .set({profilePicture: profilePictureURL}, {merge: true});
 
             dispatch(updateUserProfilePicture(profilePictureURL));
+            setSuccessMessage('Profile picture updated!');
+            openSuccessModal();
           } catch (error) {
             if (error.message === 'User cancelled image selection') {
               console.log('User cancelled the image selection');
@@ -141,6 +153,11 @@ const ProfileSettings = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
+      <CustomSuccessModal
+        visible={successModal}
+        message={successMessage}
+        onClose={() => setModalVisible(false)}
+      />
       <PhotoPicker
         visible={modalVisible}
         onClose={() => setModalVisible(false)}
