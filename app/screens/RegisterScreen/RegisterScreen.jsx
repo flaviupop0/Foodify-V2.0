@@ -18,6 +18,7 @@ import style from './style';
 import BackButton from '../../components/BackButton/BackButton';
 import Header from '../../components/Header/Header';
 import CustomError from '../../components/CustomError/CustomError';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const RegisterScreen = ({navigation}) => {
   const [firstName, setFirstName] = useState('');
@@ -30,14 +31,50 @@ const RegisterScreen = ({navigation}) => {
   const [hasSelectedDate, setHasSelectedDate] = useState(false);
   const [error, setError] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [isFirstViewOpen, setFirstViewOpen] = useState(true);
+  const [isFirstViewOpen, setFirstViewOpen] = useState(false);
   const [isEmailViewOpen, setIsEmailViewOpen] = useState(false);
-  const [isPasswordViewOpen, setIsPasswordViewOpen] = useState(false);
+  const [isPasswordViewOpen, setIsPasswordViewOpen] = useState(true);
+  const [passwordVisibility, setPasswordVisibility] = useState({
+    firstPassword: false,
+    secondPassword: false,
+  });
 
   const resetError = () => {
     setTimeout(() => {
       setError('');
     }, 4000);
+  };
+
+  const togglePasswordVisibility = field => {
+    setPasswordVisibility(prev => ({
+      ...prev,
+      [field]: !prev[field],
+    }));
+  };
+
+  const verifyEmail = async () => {
+    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+    if (!email) {
+      setError('You must enter an email!');
+      resetError();
+      return;
+    } else if (!emailRegex.test(email)) {
+      setError('Invalid email format!');
+      resetError();
+      return;
+    }
+    const snapshot = await firestore()
+      .collection('users')
+      .where('email', '==', email)
+      .get();
+
+    if (!snapshot.empty) {
+      setError('There is an account already associated to this email');
+      resetError();
+      return;
+    }
+    setIsEmailViewOpen(false);
+    setIsPasswordViewOpen(true);
   };
 
   const fetchBase64 = async filePath => {
@@ -220,31 +257,6 @@ const RegisterScreen = ({navigation}) => {
     }
   };
 
-  const verifyEmail = async () => {
-    const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
-    if (!email) {
-      setError('You must enter an email!');
-      resetError();
-      return;
-    } else if (!emailRegex.test(email)) {
-      setError('Invalid email format!');
-      resetError();
-      return;
-    }
-    const snapshot = await firestore()
-      .collection('users')
-      .where('email', '==', email)
-      .get();
-
-    if (!snapshot.empty) {
-      setError('There is an account already associated to this email');
-      resetError();
-      return;
-    }
-    setIsEmailViewOpen(false);
-    setIsPasswordViewOpen(true);
-  };
-
   const renderEmailView = () => {
     if (isEmailViewOpen) {
       return (
@@ -301,22 +313,52 @@ const RegisterScreen = ({navigation}) => {
             <Header title={'Make sure to set a good password'} type={1} />
           </View>
           <View style={style.inputContainer}>
-            <TextInput
-              autoCapitalize="none"
-              style={style.input}
-              placeholder="Password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-            />
-            <TextInput
-              autoCapitalize="none"
-              style={style.input}
-              placeholder="Confirm password"
-              value={confirmPassword}
-              onChangeText={setConfirmPassword}
-              secureTextEntry
-            />
+            <View style={style.passwordContainer}>
+              <TextInput
+                autoCapitalize="none"
+                style={style.passwordInput}
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!passwordVisibility.firstPassword}
+              />
+              <TouchableOpacity
+                onPress={() => togglePasswordVisibility('firstPassword')}
+                style={style.iconContainer}>
+                <Ionicons
+                  name={
+                    passwordVisibility.firstPassword
+                      ? 'eye-outline'
+                      : 'eye-off-outline'
+                  }
+                  size={24}
+                  color="#666"
+                />
+              </TouchableOpacity>
+            </View>
+            <View style={style.passwordContainer}>
+              <TextInput
+                autoCapitalize="none"
+                style={style.passwordInput}
+                placeholder="Confirm password"
+                value={confirmPassword}
+                onChangeText={setConfirmPassword}
+                secureTextEntry={!passwordVisibility.secondPassword}
+              />
+              <TouchableOpacity
+                onPress={() => togglePasswordVisibility('secondPassword')}
+                style={style.iconContainer}>
+                <Ionicons
+                  name={
+                    passwordVisibility.secondPassword
+                      ? 'eye-outline'
+                      : 'eye-off-outline'
+                  }
+                  size={24}
+                  color="#666"
+                />
+              </TouchableOpacity>
+            </View>
           </View>
           {error ? <CustomError error={error} /> : null}
           <TouchableOpacity

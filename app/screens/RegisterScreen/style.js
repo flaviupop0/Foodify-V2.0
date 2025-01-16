@@ -123,6 +123,36 @@ const style = StyleSheet.create({
     marginLeft: horizontalScale(13),
     fontSize: scaleFontSize(13),
   },
+  passwordContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    width: '90%',
+    height: 50,
+    borderColor: '#ccc',
+    borderWidth: 1,
+    borderRadius: 10,
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    color: '#333',
+    backgroundColor: '#f9f9f9',
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  passwordInput: {
+    flex: 1,
+    paddingVertical: verticalScale(10),
+  },
+  iconContainer: {
+    marginLeft: horizontalScale(10),
+  },
 });
 
 export default style;

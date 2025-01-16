@@ -14,12 +14,18 @@ import {Routes} from '../../navigation/Routes';
 import styles from './style';
 import BackButton from '../../components/BackButton/BackButton';
 import CustomError from '../../components/CustomError/CustomError';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
 const AuthScreen = ({navigation, onLogin}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const buttonScale = new Animated.Value(1);
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+  };
 
   const handleLogin = async () => {
     try {
@@ -83,15 +89,26 @@ const AuthScreen = ({navigation, onLogin}) => {
             placeholderTextColor="#999"
             autoCapitalize="none"
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry
-            placeholderTextColor="#999"
-            autoCapitalize="none"
-          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.passwordInput}
+              placeholder="Password"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!isPasswordVisible}
+              placeholderTextColor="#999"
+              autoCapitalize="none"
+            />
+            <TouchableOpacity
+              onPress={togglePasswordVisibility}
+              style={styles.iconContainer}>
+              <Ionicons
+                name={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
+                size={24}
+                color="#666"
+              />
+            </TouchableOpacity>
+          </View>
           {error ? <CustomError error={error} /> : null}
         </View>
         <TouchableOpacity

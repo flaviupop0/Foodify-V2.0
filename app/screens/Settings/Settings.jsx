@@ -9,6 +9,9 @@ import {scaleFontSize} from '../../../assets/styles/scaling';
 const Settings = ({navigation}) => {
   const [userPhoto, setUserPhoto] = useState('');
   const [userEmail, setUserEmail] = useState('');
+  const [firstName, setUserFirstName] = useState('');
+  const [lastName, setUserLastName] = useState('');
+
   useEffect(() => {
     const getUserData = async () => {
       try {
@@ -16,6 +19,8 @@ const Settings = ({navigation}) => {
         const parsedUser = JSON.parse(storedUser);
         setUserPhoto(parsedUser.profilePicture);
         setUserEmail(parsedUser.email);
+        setUserFirstName(parsedUser.firstName);
+        setUserLastName(parsedUser.lastName);
       } catch (error) {
         console.error('Error retrieving user data', error);
       }
@@ -32,9 +37,13 @@ const Settings = ({navigation}) => {
           resizeMode="cover"
           style={styles.profilePicture}
         />
+        <Text style={styles.emailText}>
+          {firstName} {lastName}
+        </Text>
         <Text style={styles.emailText}>{userEmail}</Text>
       </View>
       <View>
+        <View style={styles.border} />
         <TouchableOpacity style={styles.options}>
           <Ionicons
             name="person-outline"
@@ -49,7 +58,6 @@ const Settings = ({navigation}) => {
           />
         </TouchableOpacity>
         <View style={styles.border} />
-
         <TouchableOpacity style={styles.options}>
           <Ionicons
             name="lock-closed-outline"
@@ -57,6 +65,16 @@ const Settings = ({navigation}) => {
             size={scaleFontSize(25)}
           />
           <Text style={styles.subtitle}>Change password</Text>
+          <Ionicons
+            name="arrow-forward"
+            color="grey"
+            size={scaleFontSize(25)}
+          />
+        </TouchableOpacity>
+        <View style={styles.border} />
+        <TouchableOpacity style={styles.options}>
+          <Ionicons name="mail-outline" color="grey" size={scaleFontSize(25)} />
+          <Text style={styles.subtitle}>Change email address</Text>
           <Ionicons
             name="arrow-forward"
             color="grey"
@@ -77,6 +95,7 @@ const Settings = ({navigation}) => {
             size={scaleFontSize(25)}
           />
         </TouchableOpacity>
+        <View style={styles.border} />
       </View>
     </View>
   );

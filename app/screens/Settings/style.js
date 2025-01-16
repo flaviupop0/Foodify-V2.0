@@ -22,8 +22,10 @@ const styles = StyleSheet.create({
   },
   infoContainer: {
     alignItems: 'center',
+    marginBottom: verticalScale(20),
   },
   emailText: {
+    marginTop: verticalScale(5),
     fontSize: scaleFontSize(16),
     color: '#333',
   },
