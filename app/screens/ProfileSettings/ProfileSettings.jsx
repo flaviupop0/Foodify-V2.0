@@ -10,18 +10,18 @@ import {check, request, PERMISSIONS, RESULTS} from 'react-native-permissions';
 import ImageCropPicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
+import {useSelector, useDispatch} from 'react-redux';
+import {updateUserProfilePicture} from '../../redux/slices/userSlice';
 
 const ProfileSettings = ({navigation}) => {
-  const [user, setUser] = useState([]);
+  const user = useSelector(state => state.user.profile);
+  const dispatch = useDispatch();
   const [modalVisible, setModalVisible] = useState(false);
   const [userDataAuth, setUserDataAuth] = useState(null);
 
   useEffect(() => {
     const getUserData = async () => {
       try {
-        const storedUser = await AsyncStorage.getItem('userProfile');
-        const parsedUser = JSON.parse(storedUser);
-        setUser(parsedUser);
         const userData = await AsyncStorage.getItem('user');
         const parsedUser2 = JSON.parse(userData);
         setUserDataAuth(parsedUser2);
@@ -82,10 +82,7 @@ const ProfileSettings = ({navigation}) => {
               .doc(userDataAuth.uid)
               .set({profilePicture: profilePictureURL}, {merge: true});
 
-            setUser(prevUser => ({
-              ...prevUser,
-              profilePicture: profilePictureURL,
-            }));
+            dispatch(updateUserProfilePicture(profilePictureURL));
           } catch (error) {
             if (error.message === 'User cancelled image selection') {
               console.log('User cancelled the image selection');
@@ -112,7 +109,6 @@ const ProfileSettings = ({navigation}) => {
 
       case 'remove':
         console.log('Remove photo pressed');
-
         break;
 
       default:

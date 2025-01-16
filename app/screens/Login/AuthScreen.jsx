@@ -15,6 +15,9 @@ import styles from './style';
 import BackButton from '../../components/BackButton/BackButton';
 import CustomError from '../../components/CustomError/CustomError';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import {setUser} from '../../redux/slices/userSlice';
+import {useDispatch} from 'react-redux';
+import firestore from '@react-native-firebase/firestore';
 
 const AuthScreen = ({navigation, onLogin}) => {
   const [email, setEmail] = useState('');
@@ -22,6 +25,7 @@ const AuthScreen = ({navigation, onLogin}) => {
   const [error, setError] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
   const buttonScale = new Animated.Value(1);
+  const dispatch = useDispatch();
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible);
@@ -30,7 +34,6 @@ const AuthScreen = ({navigation, onLogin}) => {
   const handleLogin = async () => {
     try {
       const {user} = await auth().signInWithEmailAndPassword(email, password);
-      console.log(user);
       if (!user.emailVerified) {
         setError('Account not activated');
         setTimeout(() => {
@@ -39,6 +42,17 @@ const AuthScreen = ({navigation, onLogin}) => {
         return;
       }
       await AsyncStorage.setItem('user', JSON.stringify(user));
+      const userDoc = await firestore().collection('users').doc(user.uid).get();
+      const userData = userDoc.data();
+      const cleanedUser = {
+        dateOfBirth: userData.dateOfBirth,
+        email: userData.email,
+        firstName: userData.firstName,
+        lastName: userData.lastName,
+        profilePicture: userData.profilePicture,
+        userName: userData.userName,
+      };
+      dispatch(setUser(cleanedUser));
       onLogin();
     } catch (err) {
       let errorMessage = err.message;

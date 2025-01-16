@@ -16,9 +16,13 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {scaleFontSize} from '../../../assets/styles/scaling';
 import styles from './style';
 import {Routes} from '../../navigation/Routes';
+import {useSelector, useDispatch} from 'react-redux';
+import {clearUser} from '../../redux/slices/userSlice';
 
 const HamburgerMenu = ({navigation, onLogout}) => {
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.user.profile);
+  const [loading, setLoading] = useState(false);
   const [userData, setUserData] = useState(null);
   const [newUsername, setNewUsername] = useState('');
   const [newFirstName, setNewFirstName] = useState('');
@@ -32,29 +36,6 @@ const HamburgerMenu = ({navigation, onLogout}) => {
   const [showUsernameModal, setShowUsernameModal] = useState(false);
   const [showNameModal, setShowNameModal] = useState(false);
   const [showPasswordModal, setShowPasswordModal] = useState(false);
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const userId = auth().currentUser.uid;
-        const userDoc = await firestore().collection('users').doc(userId).get();
-        if (userDoc.exists) {
-          setUserData(userDoc.data());
-          await AsyncStorage.setItem(
-            'userProfile',
-            JSON.stringify(userDoc.data()),
-          );
-        } else {
-          setError('User data not found');
-        }
-      } catch (error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUserData();
-  }, []);
 
   const handleChangeUsername = async () => {
     if (!newUsername.trim()) {
@@ -117,8 +98,8 @@ const HamburgerMenu = ({navigation, onLogout}) => {
 
   const handleLogout = async () => {
     try {
-      await auth().signOut();
       await AsyncStorage.removeItem('user');
+      dispatch(clearUser());
       onLogout();
     } catch (error) {
       setError('Error logging out');
@@ -138,14 +119,14 @@ const HamburgerMenu = ({navigation, onLogout}) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.titleRow}>
         <BackButton onPress={() => navigation.closeDrawer()} />
-        <Text style={styles.titleText}>Hi, {userData?.firstName}</Text>
+        <Text style={styles.titleText}>Hi, {user?.firstName}</Text>
       </View>
       <Image
-        source={{uri: userData?.profilePicture}}
+        source={{uri: user?.profilePicture}}
         resizeMode="cover"
         style={styles.profilePicture}
       />
-      <Text style={styles.email}>{userData?.email}</Text>
+      <Text style={styles.email}>{user?.email}</Text>
       {error ? <CustomError error={error} /> : null}
       <TouchableOpacity style={styles.options}>
         <Ionicons

@@ -6,42 +6,24 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {scaleFontSize} from '../../../assets/styles/scaling';
 import {Routes} from '../../navigation/Routes';
+import {useSelector} from 'react-redux';
 
 const Settings = ({navigation}) => {
-  const [userPhoto, setUserPhoto] = useState('');
-  const [userEmail, setUserEmail] = useState('');
-  const [firstName, setUserFirstName] = useState('');
-  const [lastName, setUserLastName] = useState('');
-
-  useEffect(() => {
-    const getUserData = async () => {
-      try {
-        const storedUser = await AsyncStorage.getItem('userProfile');
-        const parsedUser = JSON.parse(storedUser);
-        setUserPhoto(parsedUser.profilePicture);
-        setUserEmail(parsedUser.email);
-        setUserFirstName(parsedUser.firstName);
-        setUserLastName(parsedUser.lastName);
-      } catch (error) {
-        console.error('Error retrieving user data', error);
-      }
-    };
-    getUserData();
-  }, []);
+  const user = useSelector(state => state.user.profile);
 
   return (
     <View style={styles.container}>
       <PurpleHeader press={navigation.goBack} title={'Settings'} />
       <View style={styles.infoContainer}>
         <Image
-          source={{uri: userPhoto}}
+          source={{uri: user?.profilePicture}}
           resizeMode="cover"
           style={styles.profilePicture}
         />
         <Text style={styles.emailText}>
-          {firstName} {lastName}
+          {user?.firstName} {user?.lastName}
         </Text>
-        <Text style={styles.emailText}>{userEmail}</Text>
+        <Text style={styles.emailText}>{user?.email}</Text>
       </View>
       <View>
         <View style={styles.border} />
