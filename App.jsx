@@ -12,24 +12,20 @@ export default function App() {
   const [isAuth, setIsAuth] = useState(false);
 
   useEffect(() => {
-    // Listen for authentication state changes
     const unsubscribe = auth().onIdTokenChanged(async firebaseUser => {
       if (firebaseUser) {
-        // Get a fresh token
         const idToken = await firebaseUser.getIdToken(true);
 
         const userData = {
           uid: firebaseUser.uid,
           email: firebaseUser.email,
-          token: idToken, // Store the latest token
+          token: idToken,
         };
 
-        // Save user data to AsyncStorage
         await AsyncStorage.setItem('user', JSON.stringify(userData));
         setUser(userData);
         setIsAuth(true);
       } else {
-        // User is logged out
         await AsyncStorage.removeItem('user');
         setUser(null);
         setIsAuth(false);
@@ -37,7 +33,7 @@ export default function App() {
       setLoading(false);
     });
 
-    return () => unsubscribe(); // Cleanup listener on unmount
+    return () => unsubscribe();
   }, []);
 
   if (loading) {
