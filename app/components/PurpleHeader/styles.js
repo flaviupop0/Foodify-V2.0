@@ -1,4 +1,4 @@
-import {StyleSheet} from 'react-native';
+import {Platform, StyleSheet} from 'react-native';
 import {verticalScale} from '../../../assets/styles/scaling';
 
 const styles = StyleSheet.create({
@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#8a2be2',
     paddingLeft: verticalScale(10),
+    paddingTop: Platform.OS === 'android' ? verticalScale(25) : 0,
   },
 });
 

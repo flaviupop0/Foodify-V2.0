@@ -4,7 +4,7 @@ import {
   scaleFontSize,
   horizontalScale,
 } from '../../../assets/styles/scaling';
-import {Dimensions} from 'react-native';
+import {Dimensions, Platform} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -12,6 +12,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     backgroundColor: '#FFFFFF',
+    marginTop: Platform.OS === 'android' ? verticalScale(30) : 0,
   },
   title: {
     fontSize: 28,

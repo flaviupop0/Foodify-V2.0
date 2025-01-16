@@ -7,6 +7,7 @@ import {
   Animated,
   Easing,
   ImageBackground,
+  StatusBar,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -85,64 +86,71 @@ const AuthScreen = ({navigation, onLogin}) => {
   };
 
   return (
-    <ImageBackground
-      source={require('../../../assets/background.png')}
-      style={styles.backgroundImage}>
-      <View style={styles.backButton}>
-        <BackButton onPress={() => navigation.goBack()} />
-      </View>
-      <View style={styles.container}>
-        <Text style={styles.title}>Log in</Text>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            placeholderTextColor="#999"
-            autoCapitalize="none"
-          />
-          <View style={styles.passwordContainer}>
+    <>
+      <StatusBar
+        translucent={true}
+        backgroundColor={'transparent'}
+        barStyle={'dark-content'}
+      />
+      <ImageBackground
+        source={require('../../../assets/background.png')}
+        style={styles.backgroundImage}>
+        <View style={styles.backButton}>
+          <BackButton onPress={() => navigation.goBack()} />
+        </View>
+        <View style={styles.container}>
+          <Text style={styles.title}>Log in</Text>
+          <View style={styles.inputContainer}>
             <TextInput
-              style={styles.passwordInput}
-              placeholder="Password"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!isPasswordVisible}
+              style={styles.input}
+              placeholder="Email"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
               placeholderTextColor="#999"
               autoCapitalize="none"
             />
-            <TouchableOpacity
-              onPress={togglePasswordVisibility}
-              style={styles.iconContainer}>
-              <Ionicons
-                name={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
-                size={24}
-                color="#666"
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={styles.passwordInput}
+                placeholder="Password"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry={!isPasswordVisible}
+                placeholderTextColor="#999"
+                autoCapitalize="none"
               />
-            </TouchableOpacity>
+              <TouchableOpacity
+                onPress={togglePasswordVisibility}
+                style={styles.iconContainer}>
+                <Ionicons
+                  name={isPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
+                  size={24}
+                  color="#666"
+                />
+              </TouchableOpacity>
+            </View>
+            {error ? <CustomError error={error} /> : null}
           </View>
-          {error ? <CustomError error={error} /> : null}
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.button}
+            onPressIn={startButtonAnimation}
+            onPressOut={resetButtonAnimation}
+            onPress={handleLogin}>
+            <Animated.Text
+              style={[styles.buttonText, {transform: [{scale: buttonScale}]}]}>
+              Login
+            </Animated.Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.forgotPassword}
+            onPress={() => navigation.navigate(Routes.ForgetPassword)}>
+            <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.button}
-          onPressIn={startButtonAnimation}
-          onPressOut={resetButtonAnimation}
-          onPress={handleLogin}>
-          <Animated.Text
-            style={[styles.buttonText, {transform: [{scale: buttonScale}]}]}>
-            Login
-          </Animated.Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.forgotPassword}
-          onPress={() => navigation.navigate(Routes.ForgetPassword)}>
-          <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-        </TouchableOpacity>
-      </View>
-    </ImageBackground>
+      </ImageBackground>
+    </>
   );
 };
 

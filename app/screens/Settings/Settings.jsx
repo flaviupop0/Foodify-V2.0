@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
-import {View, TouchableOpacity, Text, Image} from 'react-native';
+import React from 'react';
+import {View, TouchableOpacity, Text, Image, StatusBar} from 'react-native';
 import styles from './style';
 import PurpleHeader from '../../components/PurpleHeader/PurpleHeader';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {scaleFontSize} from '../../../assets/styles/scaling';
 import {Routes} from '../../navigation/Routes';
@@ -13,6 +12,7 @@ const Settings = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar barStyle={'white-content'} translucent={true} />
       <PurpleHeader press={navigation.goBack} title={'Settings'} />
       <View style={styles.infoContainer}>
         <Image

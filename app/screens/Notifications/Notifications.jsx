@@ -1,9 +1,10 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, StatusBar} from 'react-native';
 
 const Notifications = () => {
   <View>
-    <Text>NewsFeed</Text>
+    <StatusBar barStyle={'white-content'} />
+    <Text>Notifications</Text>
   </View>;
 };
 

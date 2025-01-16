@@ -5,6 +5,7 @@ import {
   TextInput,
   TouchableOpacity,
   SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import auth from '@react-native-firebase/auth';
 import styles from './style';
@@ -36,6 +37,7 @@ const ForgotPassword = ({navigation}) => {
 
   return (
     <SafeAreaView style={[globalStyles.backgroundColor, globalStyles.flex]}>
+      <StatusBar translucent={false} />
       <BackButton onPress={() => navigation.goBack()} />
       <View style={styles.container}>
         <View style={styles.title}>

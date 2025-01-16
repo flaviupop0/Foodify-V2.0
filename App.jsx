@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import MainNavigation from './app/navigation/MainNavigation';
 import AuthNavigation from './app/navigation/AuthNavigation';
-import {ActivityIndicator, View} from 'react-native';
+import {ActivityIndicator, View, StatusBar} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import auth from '@react-native-firebase/auth';
 
@@ -46,6 +46,11 @@ export default function App() {
 
   return (
     <NavigationContainer>
+      <StatusBar
+        translucent={true}
+        backgroundColor={'transparent'}
+        barStyle={'light-content'}
+      />
       {isAuth ? (
         <AuthNavigation
           onLogout={() => {

@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import auth from '@react-native-firebase/auth';
@@ -117,6 +118,7 @@ const HamburgerMenu = ({navigation, onLogout}) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle={'dark-content'} />
       <View style={styles.titleRow}>
         <BackButton onPress={() => navigation.closeDrawer()} />
         <Text style={styles.titleText}>Hi, {user?.firstName}</Text>

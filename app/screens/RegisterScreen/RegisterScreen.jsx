@@ -8,6 +8,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
+  StatusBar,
 } from 'react-native';
 import auth, {sendEmailVerification} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
@@ -171,6 +172,11 @@ const RegisterScreen = ({navigation}) => {
     if (isFirstViewOpen === true) {
       return (
         <SafeAreaView style={[globalStyles.backgroundColor, globalStyles.flex]}>
+          <StatusBar
+            translucent={false}
+            backgroundColor={'#FFFFFF'}
+            barStyle={'dark-content'}
+          />
           <View>
             <BackButton
               onPress={() => navigation.goBack()}
