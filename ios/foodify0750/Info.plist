@@ -4,6 +4,10 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Foodify requires access for camera in order to upload photos</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Foodify requires access to gallery in order to upload photos or videos</string>
 	<key>CFBundleDisplayName</key>
 	<string>foodify0750</string>
 	<key>CFBundleExecutable</key>
