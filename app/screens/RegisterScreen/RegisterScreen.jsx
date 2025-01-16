@@ -31,9 +31,9 @@ const RegisterScreen = ({navigation}) => {
   const [hasSelectedDate, setHasSelectedDate] = useState(false);
   const [error, setError] = useState('');
   const [showDatePicker, setShowDatePicker] = useState(false);
-  const [isFirstViewOpen, setFirstViewOpen] = useState(false);
+  const [isFirstViewOpen, setFirstViewOpen] = useState(true);
   const [isEmailViewOpen, setIsEmailViewOpen] = useState(false);
-  const [isPasswordViewOpen, setIsPasswordViewOpen] = useState(true);
+  const [isPasswordViewOpen, setIsPasswordViewOpen] = useState(false);
   const [passwordVisibility, setPasswordVisibility] = useState({
     firstPassword: false,
     secondPassword: false,

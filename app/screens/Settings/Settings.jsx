@@ -5,6 +5,7 @@ import PurpleHeader from '../../components/PurpleHeader/PurpleHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {scaleFontSize} from '../../../assets/styles/scaling';
+import {Routes} from '../../navigation/Routes';
 
 const Settings = ({navigation}) => {
   const [userPhoto, setUserPhoto] = useState('');
@@ -44,7 +45,9 @@ const Settings = ({navigation}) => {
       </View>
       <View>
         <View style={styles.border} />
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity
+          style={styles.options}
+          onPress={() => navigation.navigate(Routes.ProfileSettings)}>
           <Ionicons
             name="person-outline"
             color="grey"

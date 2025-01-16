@@ -6,4 +6,5 @@ export const Routes = {
   LoggedInScreen: 'LoggedIn Screen',
   Menu: 'Menu',
   Settings: 'Settings',
+  ProfileSettings: 'Profile Settings',
 };
