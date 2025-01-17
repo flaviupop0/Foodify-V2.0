@@ -18,9 +18,15 @@ import ImageCropPicker from 'react-native-image-crop-picker';
 import storage from '@react-native-firebase/storage';
 import firestore from '@react-native-firebase/firestore';
 import {useSelector, useDispatch} from 'react-redux';
-import {updateUserProfilePicture} from '../../redux/slices/userSlice';
+import {
+  updateUserProfilePicture,
+  updateUserProfile,
+} from '../../redux/slices/userSlice';
 import CustomSuccessModal from '../../components/SuccessPopUp/SuccessPopUp';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import {Routes} from '../../navigation/Routes';
+import DatePicker from 'react-native-date-picker';
+import CustomError from '../../components/CustomError/CustomError';
 
 const ProfileSettings = ({navigation}) => {
   const user = useSelector(state => state.user.profile);
@@ -29,6 +35,9 @@ const ProfileSettings = ({navigation}) => {
   const [userDataAuth, setUserDataAuth] = useState(null);
   const [successModal, setSuccessModal] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [showDatePicker, setShowDatePicker] = useState(false);
+  const [birthDay, setDateOfBirth] = useState(new Date());
+  const [error, setError] = useState('');
 
   useEffect(() => {
     const getUserData = async () => {
@@ -43,7 +52,8 @@ const ProfileSettings = ({navigation}) => {
     getUserData();
   }, []);
 
-  const openSuccessModal = () => {
+  const openSuccessModal = message => {
+    setSuccessMessage(message);
     setSuccessModal(true);
     setTimeout(() => {
       setSuccessModal(false);
@@ -113,8 +123,7 @@ const ProfileSettings = ({navigation}) => {
               .set({profilePicture: profilePictureURL}, {merge: true});
 
             dispatch(updateUserProfilePicture(profilePictureURL));
-            setSuccessMessage('Profile picture updated!');
-            openSuccessModal();
+            openSuccessModal('Profile picture updated!');
           } catch (error) {
             if (error.message === 'User cancelled image selection') {
               console.log('User cancelled the image selection');
@@ -161,8 +170,7 @@ const ProfileSettings = ({navigation}) => {
 
             dispatch(updateUserProfilePicture(profilePictureURL));
 
-            setSuccessMessage('Profile picture updated!');
-            openSuccessModal();
+            openSuccessModal('Profile picture updated!');
           } catch (error) {
             if (error.message === 'User cancelled image selection') {
               console.log('User cancelled the image selection');
@@ -193,9 +201,7 @@ const ProfileSettings = ({navigation}) => {
           .set({profilePicture: profilePictureURL}, {merge: true});
 
         dispatch(updateUserProfilePicture(profilePictureURL));
-
-        setSuccessMessage('Profile picture deleted successfully!');
-        openSuccessModal();
+        openSuccessModal('Profile picture deleted successfully!');
         break;
 
       default:
@@ -204,6 +210,27 @@ const ProfileSettings = ({navigation}) => {
 
     if (hasPermission || option === 'remove') {
       setModalVisible(false);
+    }
+  };
+
+  changeDateOfBirth = async () => {
+    try {
+      const minimumAgeDate = new Date();
+      minimumAgeDate.setFullYear(minimumAgeDate.getFullYear() - 16);
+      if (birthDay > minimumAgeDate) {
+        setError('You must be at least 16 years old to use this application.');
+        setTimeout(() => {
+          setError('');
+        }, 4000);
+        return;
+      }
+      await firestore().collection('users').doc(userDataAuth.uid).update({
+        dateOfBirth: birthDay.toISOString(),
+      });
+      dispatch(updateUserProfile({dateOfBirth: birthDay.toISOString()}));
+      openSuccessModal('Your birthday was updated successfully!');
+    } catch (error) {
+      console.error(`Error updating birthday`, error.message);
     }
   };
 
@@ -230,25 +257,63 @@ const ProfileSettings = ({navigation}) => {
       </View>
       <View>
         <View style={styles.border} />
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(Routes.EditField, {
+              fieldName: 'Username',
+              fieldUpdate: 'userName',
+              initialValue: user.userName,
+              onSave: newValue => {
+                dispatch(updateUserProfile({userName: newValue}));
+                openSuccessModal('Username updated successfully!');
+              },
+            });
+          }}
+          style={styles.options}>
           <Text style={styles.subtitle}>Username</Text>
           <Text style={styles.optionText}>{user.userName}</Text>
           <Icon name="chevron-right" color="grey" size={scaleFontSize(25)} />
         </TouchableOpacity>
         <View style={styles.border} />
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(Routes.EditField, {
+              fieldName: 'First name',
+              fieldUpdate: 'firstName',
+              initialValue: user.firstName,
+              onSave: newValue => {
+                dispatch(updateUserProfile({firstName: newValue}));
+                openSuccessModal('First name updated successfully!');
+              },
+            });
+          }}
+          style={styles.options}>
           <Text style={styles.subtitle}>First Name</Text>
           <Text style={styles.optionText}>{user.firstName}</Text>
           <Icon name="chevron-right" color="grey" size={scaleFontSize(25)} />
         </TouchableOpacity>
         <View style={styles.border} />
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(Routes.EditField, {
+              fieldName: 'Last name',
+              fieldUpdate: 'lastName',
+              initialValue: user.lastName,
+              onSave: newValue => {
+                dispatch(updateUserProfile({lastName: newValue}));
+                openSuccessModal('Last name updated successfully!');
+              },
+            });
+          }}
+          style={styles.options}>
           <Text style={styles.subtitle}>Last Name</Text>
           <Text style={styles.optionText}>{user.lastName}</Text>
           <Icon name="chevron-right" color="grey" size={scaleFontSize(25)} />
         </TouchableOpacity>
         <View style={styles.border} />
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity
+          onPress={() => setShowDatePicker(true)}
+          style={styles.options}>
           <Text style={styles.subtitle}>Birthday</Text>
           <Text style={styles.optionText}>
             {new Intl.DateTimeFormat('en-GB', {
@@ -260,7 +325,22 @@ const ProfileSettings = ({navigation}) => {
           <Icon name="chevron-right" color="grey" size={scaleFontSize(25)} />
         </TouchableOpacity>
         <View style={styles.border} />
+        <DatePicker
+          modal
+          open={showDatePicker}
+          date={birthDay}
+          mode="date"
+          onConfirm={date => {
+            setShowDatePicker(false);
+            setDateOfBirth(date);
+            changeDateOfBirth();
+          }}
+          onCancel={() => {
+            setShowDatePicker(false);
+          }}
+        />
       </View>
+      {error ? <CustomError error={error} /> : null}
       <CustomSuccessModal
         visible={successModal}
         message={successMessage}

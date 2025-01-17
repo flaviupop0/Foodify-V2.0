@@ -7,4 +7,5 @@ export const Routes = {
   Menu: 'Menu',
   Settings: 'Settings',
   ProfileSettings: 'Profile Settings',
+  EditField: 'Edit Field',
 };
