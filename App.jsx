@@ -14,8 +14,15 @@ export default function App() {
   useEffect(() => {
     const unsubscribe = auth().onIdTokenChanged(async firebaseUser => {
       if (firebaseUser) {
-        const idToken = await firebaseUser.getIdToken(true);
+        if (!firebaseUser.emailVerified) {
+          await AsyncStorage.removeItem('user');
+          setUser(null);
+          setIsAuth(false);
+          setLoading(false);
+          return;
+        }
 
+        const idToken = await firebaseUser.getIdToken(true);
         const userData = {
           uid: firebaseUser.uid,
           email: firebaseUser.email,
