@@ -12,18 +12,29 @@ import styles from './style';
 import BackButton from '../../components/BackButton/BackButton';
 import globalStyles from '../../../assets/styles/globalStyles';
 import Header from '../../components/Header/Header';
+import CustomError from '../../components/CustomError/CustomError';
+import CustomSuccessModal from '../../components/SuccessPopUp/SuccessPopUp';
 
 const ForgotPassword = ({navigation}) => {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
+  const [successModal, setSuccessModal] = useState(false);
+
+  const openSuccessModal = () => {
+    setSuccessModal(true);
+    setTimeout(() => {
+      setSuccessModal(false);
+    }, 5000);
+  };
 
   const handleForgotPassword = async () => {
     try {
       await auth().sendPasswordResetEmail(email);
       setSuccessMessage(
-        'Password reset email sent successfully. Please check your email.',
+        "If there is an account related to this e-mail, you'll receive a reset password link on your e-mail",
       );
+      openSuccessModal();
       setError('');
     } catch (error) {
       let errorMessage = error.message;
@@ -31,6 +42,9 @@ const ForgotPassword = ({navigation}) => {
         errorMessage = errorMessage.split(']')[1].trim();
       }
       setError(errorMessage);
+      setTimeout(() => {
+        setError('');
+      }, 4000);
       setSuccessMessage('');
     }
   };
@@ -38,15 +52,17 @@ const ForgotPassword = ({navigation}) => {
   return (
     <SafeAreaView style={[globalStyles.backgroundColor, globalStyles.flex]}>
       <StatusBar translucent={false} />
-      <BackButton onPress={() => navigation.goBack()} />
+      <BackButton
+        onPress={() => navigation.goBack()}
+        title={'Forgot Password'}
+      />
       <View style={styles.container}>
         <View style={styles.title}>
-          <Header type={1} title={'Forgot Password'} />
+          <Header
+            type={1}
+            title={'Did you forget your password? Feel free to reset it'}
+          />
         </View>
-        {error ? <Text style={styles.error}>{error}</Text> : null}
-        {successMessage ? (
-          <Text style={styles.successMessage}>{successMessage}</Text>
-        ) : null}
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -55,9 +71,16 @@ const ForgotPassword = ({navigation}) => {
           keyboardType="email-address"
           placeholderTextColor="#666"
         />
+        {error ? <CustomError error={error} /> : null}
         <TouchableOpacity style={styles.button} onPress={handleForgotPassword}>
           <Text style={styles.buttonText}>Reset Password</Text>
         </TouchableOpacity>
+        <CustomSuccessModal
+          visible={successModal}
+          message={successMessage}
+          onClose={() => {}}
+          style={styles.popup}
+        />
       </View>
     </SafeAreaView>
   );

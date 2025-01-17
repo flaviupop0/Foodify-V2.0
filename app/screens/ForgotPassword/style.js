@@ -9,7 +9,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
     paddingHorizontal: horizontalScale(20),
     backgroundColor: '#fff',
   },
@@ -17,6 +16,7 @@ const styles = StyleSheet.create({
     fontSize: scaleFontSize(32),
     fontWeight: 'bold',
     marginBottom: verticalScale(20),
+    marginTop: verticalScale(20),
     fontFamily: 'PoetsenOne-Regular',
   },
   input: {
@@ -37,6 +37,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     marginBottom: 10,
+    position: 'absolute',
+    bottom: verticalScale(20),
   },
   buttonText: {
     color: '#fff',
@@ -50,6 +52,24 @@ const styles = StyleSheet.create({
   successMessage: {
     color: 'green',
     marginBottom: 20,
+  },
+  popup: {
+    position: 'absolute',
+    bottom: verticalScale(120),
+    left: verticalScale(20),
+    right: verticalScale(20),
+    backgroundColor: '#fff',
+    padding: horizontalScale(16),
+    marginHorizontal: horizontalScale(16),
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: 2},
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 5,
+    alignItems: 'center',
+    borderLeftWidth: verticalScale(5),
+    borderLeftColor: '#8a2be2',
   },
 });
 

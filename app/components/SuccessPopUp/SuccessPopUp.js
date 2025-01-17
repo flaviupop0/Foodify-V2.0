@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import {Modal, Text, View} from 'react-native';
 import styles from './styles';
 
-const CustomSuccessModal = ({visible, message, onClose}) => {
+const CustomSuccessModal = ({visible, message, onClose, style}) => {
   useEffect(() => {
     if (visible) {
       const timer = setTimeout(() => {
@@ -18,7 +18,7 @@ const CustomSuccessModal = ({visible, message, onClose}) => {
       transparent
       visible={visible}
       onRequestClose={onClose}>
-      <View style={styles.modalContainer}>
+      <View style={style ? style : styles.modalContainer}>
         <Text style={styles.messageText}>{message}</Text>
       </View>
     </Modal>
