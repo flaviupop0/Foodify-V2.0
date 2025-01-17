@@ -1,5 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Image, TouchableOpacity, Platform, Alert} from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Platform,
+  Alert,
+  Text,
+} from 'react-native';
 import PurpleHeader from '../../components/PurpleHeader/PurpleHeader';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './styles';
@@ -13,6 +20,7 @@ import firestore from '@react-native-firebase/firestore';
 import {useSelector, useDispatch} from 'react-redux';
 import {updateUserProfilePicture} from '../../redux/slices/userSlice';
 import CustomSuccessModal from '../../components/SuccessPopUp/SuccessPopUp';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const ProfileSettings = ({navigation}) => {
   const user = useSelector(state => state.user.profile);
@@ -219,6 +227,39 @@ const ProfileSettings = ({navigation}) => {
             />
           </TouchableOpacity>
         </View>
+      </View>
+      <View>
+        <View style={styles.border} />
+        <TouchableOpacity style={styles.options}>
+          <Text style={styles.subtitle}>Username</Text>
+          <Text style={styles.optionText}>{user.userName}</Text>
+          <Icon name="chevron-right" color="grey" size={scaleFontSize(25)} />
+        </TouchableOpacity>
+        <View style={styles.border} />
+        <TouchableOpacity style={styles.options}>
+          <Text style={styles.subtitle}>First Name</Text>
+          <Text style={styles.optionText}>{user.firstName}</Text>
+          <Icon name="chevron-right" color="grey" size={scaleFontSize(25)} />
+        </TouchableOpacity>
+        <View style={styles.border} />
+        <TouchableOpacity style={styles.options}>
+          <Text style={styles.subtitle}>Last Name</Text>
+          <Text style={styles.optionText}>{user.lastName}</Text>
+          <Icon name="chevron-right" color="grey" size={scaleFontSize(25)} />
+        </TouchableOpacity>
+        <View style={styles.border} />
+        <TouchableOpacity style={styles.options}>
+          <Text style={styles.subtitle}>Birthday</Text>
+          <Text style={styles.optionText}>
+            {new Intl.DateTimeFormat('en-GB', {
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric',
+            }).format(new Date(user.dateOfBirth))}
+          </Text>
+          <Icon name="chevron-right" color="grey" size={scaleFontSize(25)} />
+        </TouchableOpacity>
+        <View style={styles.border} />
       </View>
       <CustomSuccessModal
         visible={successModal}

@@ -39,6 +39,38 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: verticalScale(20),
   },
+  subtitle: {
+    marginLeft: verticalScale(10),
+    fontSize: scaleFontSize(16),
+    flex: 1,
+    color: 'grey',
+  },
+  border: {
+    width: '90%',
+    borderWidth: 1,
+    borderColor: '#D9D9D9',
+    flex: 1,
+    alignSelf: 'center',
+    marginTop: verticalScale(10),
+  },
+  options: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    marginLeft: horizontalScale(20),
+    justifyContent: 'space-between',
+    width: '90%',
+    marginTop: verticalScale(10),
+    backgroundColor: 'white',
+    paddingVertical: verticalScale(15),
+    paddingHorizontal: horizontalScale(10),
+    borderRadius: verticalScale(6),
+  },
+  optionText: {
+    fontSize: scaleFontSize(16),
+    fontWeight: '600',
+    marginRight: verticalScale(1),
+  },
 });
 
 export default styles;

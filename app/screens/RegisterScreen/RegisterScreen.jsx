@@ -8,7 +8,6 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Image,
-  StatusBar,
 } from 'react-native';
 import auth, {sendEmailVerification} from '@react-native-firebase/auth';
 import storage from '@react-native-firebase/storage';
@@ -172,11 +171,6 @@ const RegisterScreen = ({navigation}) => {
     if (isFirstViewOpen === true) {
       return (
         <SafeAreaView style={[globalStyles.backgroundColor, globalStyles.flex]}>
-          <StatusBar
-            translucent={false}
-            backgroundColor={'#FFFFFF'}
-            barStyle={'dark-content'}
-          />
           <View>
             <BackButton
               onPress={() => navigation.goBack()}
@@ -192,12 +186,14 @@ const RegisterScreen = ({navigation}) => {
               placeholder="First Name"
               value={firstName}
               onChangeText={setFirstName}
+              placeholderTextColor="#A0A0A0"
             />
             <TextInput
               style={style.input}
               placeholder="Last Name"
               value={lastName}
               onChangeText={setLastName}
+              placeholderTextColor="#A0A0A0"
             />
             <TextInput
               autoCapitalize="none"
@@ -205,6 +201,7 @@ const RegisterScreen = ({navigation}) => {
               placeholder="Username"
               value={userName}
               onChangeText={setUserName}
+              placeholderTextColor="#A0A0A0"
             />
             <TouchableOpacity
               style={style.datePickerButton}
@@ -287,6 +284,7 @@ const RegisterScreen = ({navigation}) => {
               value={email}
               onChangeText={setEmail}
               keyboardType="email-address"
+              placeholderTextColor="#A0A0A0"
             />
           </View>
           {error ? <CustomError error={error} /> : null}
@@ -327,6 +325,7 @@ const RegisterScreen = ({navigation}) => {
                 value={password}
                 onChangeText={setPassword}
                 secureTextEntry={!passwordVisibility.firstPassword}
+                placeholderTextColor="#A0A0A0"
               />
               <TouchableOpacity
                 onPress={() => togglePasswordVisibility('firstPassword')}
@@ -350,6 +349,7 @@ const RegisterScreen = ({navigation}) => {
                 value={confirmPassword}
                 onChangeText={setConfirmPassword}
                 secureTextEntry={!passwordVisibility.secondPassword}
+                placeholderTextColor="#A0A0A0"
               />
               <TouchableOpacity
                 onPress={() => togglePasswordVisibility('secondPassword')}

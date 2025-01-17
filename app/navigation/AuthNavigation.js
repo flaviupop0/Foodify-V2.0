@@ -4,7 +4,6 @@ import LoggedInScreen from '../screens/LoggedInScreen/LoggedInScreen';
 import HamburgerMenu from '../screens/HamburgerMenu/HamburgerMenu';
 import Settings from '../screens/Settings/Settings';
 import ProfileSettings from '../screens/ProfileSettings/ProfileSettings';
-
 const Stack = createStackNavigator();
 
 const AuthNavigation = ({onLogout}) => {

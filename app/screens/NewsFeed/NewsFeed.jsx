@@ -1,11 +1,13 @@
 import React from 'react';
-import {View, Text, StatusBar} from 'react-native';
+import {View, Text, StatusBar, SafeAreaView} from 'react-native';
 
 const NewsFeed = () => {
-  <View>
-    <StatusBar barStyle={'dark-content'} />
-    <Text>NewsFeed</Text>
-  </View>;
+  return (
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+      <StatusBar barStyle={'dark-content'} />
+      <Text style={{fontSize: 30}}>NewsFeed</Text>
+    </SafeAreaView>
+  );
 };
 
 export default NewsFeed;

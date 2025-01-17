@@ -2,7 +2,7 @@ import React from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import NewsFeedScreen from '../NewsFeed/NewsFeed';
+import NewsFeed from '../NewsFeed/NewsFeed';
 import NotificationsScreen from '../Notifications/Notifications';
 import HamburgerMenu from '../HamburgerMenu/HamburgerMenu';
 import {Dimensions, Text, TouchableOpacity} from 'react-native';
@@ -43,17 +43,16 @@ const BottomTabNavigator = () => {
         },
         tabBarActiveTintColor: '#8a2be2',
         tabBarInactiveTintColor: 'gray',
-        tabBarStyle: styles.tabBar,
         tabBarLabelStyle: styles.tabBarLabel,
       })}>
       <Tab.Screen
         name="Notifications"
         component={NotificationsScreen}
-        options={{headerShown: false}}
+        options={{headerShown: true}}
       />
       <Tab.Screen
         name="Home"
-        component={NewsFeedScreen}
+        component={NewsFeed}
         options={{headerShown: false}}
       />
       <Tab.Screen
