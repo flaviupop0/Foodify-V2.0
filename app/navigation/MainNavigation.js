@@ -13,10 +13,9 @@ const MainNavigation = ({onLogin}) => {
       initialRouteName={Routes.Home}
       screenOptions={{headerShown: false}}>
       <Stack.Screen name={Routes.Home} component={HomeScreen} />
-      <Stack.Screen
-        name={Routes.Login}
-        component={props => <AuthScreen {...props} onLogin={onLogin} />}
-      />
+      <Stack.Screen name={Routes.Login}>
+        {props => <AuthScreen {...props} onLogin={onLogin} />}
+      </Stack.Screen>
       <Stack.Screen name={Routes.SignUp} component={RegisterScreen} />
       <Stack.Screen name={Routes.ForgetPassword} component={ForgotPassword} />
     </Stack.Navigator>

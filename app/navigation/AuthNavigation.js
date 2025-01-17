@@ -11,10 +11,9 @@ const AuthNavigation = ({onLogout}) => {
     <Stack.Navigator
       initialRouteName={Routes.LoggedInScreen}
       screenOptions={{headerShown: false}}>
-      <Stack.Screen
-        name={Routes.LoggedInScreen}
-        component={props => <LoggedInScreen {...props} onLogout={onLogout} />}
-      />
+      <Stack.Screen name={Routes.LoggedInScreen}>
+        {props => <LoggedInScreen {...props} onLogout={onLogout} />}
+      </Stack.Screen>
       <Stack.Screen name={Routes.Menu} component={HamburgerMenu} />
       <Stack.Screen name={Routes.Settings} component={Settings} />
       <Stack.Screen name={Routes.ProfileSettings} component={ProfileSettings} />
