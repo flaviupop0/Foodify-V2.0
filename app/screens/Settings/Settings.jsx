@@ -1,14 +1,26 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, TouchableOpacity, Text, Image, StatusBar} from 'react-native';
 import styles from './style';
 import PurpleHeader from '../../components/PurpleHeader/PurpleHeader';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {scaleFontSize} from '../../../assets/styles/scaling';
 import {Routes} from '../../navigation/Routes';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
+import CustomSuccessModal from '../../components/SuccessPopUp/SuccessPopUp';
 
 const Settings = ({navigation}) => {
   const user = useSelector(state => state.user.profile);
+  const dispatch = useDispatch();
+  const [successModal, setSuccessModal] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+
+  const openSuccessModal = message => {
+    setSuccessMessage(message);
+    setSuccessModal(true);
+    setTimeout(() => {
+      setSuccessModal(false);
+    }, 4000);
+  };
 
   return (
     <View style={styles.container}>
@@ -57,7 +69,19 @@ const Settings = ({navigation}) => {
           />
         </TouchableOpacity>
         <View style={styles.border} />
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate(Routes.EditField, {
+              fieldName: 'Email',
+              fieldUpdate: 'email',
+              initialValue: user.email,
+              onSave: newValue => {
+                dispatch(updateUserProfile({email: newValue}));
+                openSuccessModal('Email changed successfully!');
+              },
+            });
+          }}
+          style={styles.options}>
           <Ionicons name="mail-outline" color="grey" size={scaleFontSize(25)} />
           <Text style={styles.subtitle}>Change email address</Text>
           <Ionicons
@@ -82,6 +106,11 @@ const Settings = ({navigation}) => {
         </TouchableOpacity>
         <View style={styles.border} />
       </View>
+      <CustomSuccessModal
+        visible={successModal}
+        message={successMessage}
+        onClose={() => setSuccessModal(false)}
+      />
     </View>
   );
 };
