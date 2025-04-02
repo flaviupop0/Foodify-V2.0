@@ -5,6 +5,8 @@ import HamburgerMenu from '../screens/HamburgerMenu/HamburgerMenu';
 import Settings from '../screens/Settings/Settings';
 import ProfileSettings from '../screens/ProfileSettings/ProfileSettings';
 import EditFieldScreen from '../screens/EditFieldScreen/EditFieldScreen';
+import ChangePassword from '../screens/ChangePassword/ChangePassword';
+import SuccessChangePassword from '../screens/ChangePassword/SuccessChangePassword';
 const Stack = createStackNavigator();
 
 const AuthNavigation = ({onLogout}) => {
@@ -19,6 +21,11 @@ const AuthNavigation = ({onLogout}) => {
       <Stack.Screen name={Routes.Settings} component={Settings} />
       <Stack.Screen name={Routes.ProfileSettings} component={ProfileSettings} />
       <Stack.Screen name={Routes.EditField} component={EditFieldScreen} />
+      <Stack.Screen name={Routes.ChangePassword} component={ChangePassword} />
+      <Stack.Screen
+        name={Routes.SuccessChangePassword}
+        component={SuccessChangePassword}
+      />
     </Stack.Navigator>
   );
 };

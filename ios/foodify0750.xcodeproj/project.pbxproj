@@ -16,7 +16,7 @@
 		9159D09A2D36E2FA002CC899 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9159D0992D36E2FA002CC899 /* GoogleService-Info.plist */; };
 		9159D09B2D36E2FA002CC899 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9159D0992D36E2FA002CC899 /* GoogleService-Info.plist */; };
 		AA0297A30E5807B470DDA23C /* Pods_foodify0750.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BED547595D62F2E4879089BE /* Pods_foodify0750.framework */; };
-		D24396CC91F64D74AE4FC791 /* PoetsenOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2C73B38220AA4F02AE68574A /* PoetsenOne-Regular.ttf */; };
+		E1E2195A2EC84CCAB0996EAF /* PoetsenOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0F7CAEA0B8C44E5DB352FCCE /* PoetsenOne-Regular.ttf */; };
 		EFE1AC8F1AD977EEA95E1E53 /* Pods_foodify0750_foodify0750Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01BCD173612E3B22F3A9F17C /* Pods_foodify0750_foodify0750Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +35,7 @@
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* foodify0750Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = foodify0750Tests.m; sourceTree = "<group>"; };
 		01BCD173612E3B22F3A9F17C /* Pods_foodify0750_foodify0750Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_foodify0750_foodify0750Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F7CAEA0B8C44E5DB352FCCE /* PoetsenOne-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PoetsenOne-Regular.ttf"; path = "../assets/fonts/PoetsenOne-Regular.ttf"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* Foodify.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Foodify.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = foodify0750/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = foodify0750/AppDelegate.mm; sourceTree = "<group>"; };
@@ -42,7 +43,6 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = foodify0750/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = foodify0750/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = foodify0750/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		2C73B38220AA4F02AE68574A /* PoetsenOne-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "PoetsenOne-Regular.ttf"; path = "../assets/fonts/PoetsenOne-Regular.ttf"; sourceTree = "<group>"; };
 		3B4392A12AC88292D35C810B /* Pods-foodify0750.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-foodify0750.debug.xcconfig"; path = "Target Support Files/Pods-foodify0750/Pods-foodify0750.debug.xcconfig"; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-foodify0750.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-foodify0750.release.xcconfig"; path = "Target Support Files/Pods-foodify0750/Pods-foodify0750.release.xcconfig"; sourceTree = "<group>"; };
 		5A766D87D38EF93D4F492F07 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = foodify0750/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
@@ -152,7 +152,7 @@
 		B515197CCE5C4D689EFED834 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2C73B38220AA4F02AE68574A /* PoetsenOne-Regular.ttf */,
+				0F7CAEA0B8C44E5DB352FCCE /* PoetsenOne-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -267,7 +267,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				9159D09B2D36E2FA002CC899 /* GoogleService-Info.plist in Resources */,
 				7DF21191DA1383AE4CB9CF79 /* PrivacyInfo.xcprivacy in Resources */,
-				D24396CC91F64D74AE4FC791 /* PoetsenOne-Regular.ttf in Resources */,
+				E1E2195A2EC84CCAB0996EAF /* PoetsenOne-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

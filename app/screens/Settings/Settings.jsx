@@ -55,7 +55,9 @@ const Settings = ({navigation}) => {
           />
         </TouchableOpacity>
         <View style={styles.border} />
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(Routes.ChangePassword)}
+          style={styles.options}>
           <Ionicons
             name="lock-closed-outline"
             color="grey"

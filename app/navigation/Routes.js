@@ -8,4 +8,6 @@ export const Routes = {
   Settings: 'Settings',
   ProfileSettings: 'Profile Settings',
   EditField: 'Edit Field',
+  ChangePassword: 'Change Password',
+  SuccessChangePassword: 'Success Change Password',
 };
