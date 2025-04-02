@@ -9,7 +9,7 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Foodify requires access to gallery in order to upload photos or videos</string>
 	<key>CFBundleDisplayName</key>
-	<string>foodify0750</string>
+	<string>Foodify</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
