@@ -72,7 +72,7 @@ jobs:
             -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
             -Dsonar.organization=${{ secrets.SONAR_ORG }}
             -Dsonar.sources=.
-            -Dsonar.exclusions=node_modules/**,android/**,ios/**,**/*.test.js,__tests__/**
+            -Dsonar.exclusions=node_modules/**,android/**,ios/**,**/*.test.js,__tests__/**,**/*.html
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
