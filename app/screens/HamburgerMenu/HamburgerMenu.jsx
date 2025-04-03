@@ -21,26 +21,7 @@ import {clearUser} from '../../redux/slices/userSlice';
 const HamburgerMenu = ({navigation, onLogout}) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
-  const [newPassword, setNewPassword] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-
-  const handleChangePassword = async () => {
-    if (!newPassword.trim()) {
-      setPasswordError('Password cannot be empty');
-      return;
-    }
-    try {
-      const user = auth().currentUser;
-      await user.updatePassword(newPassword);
-      setSuccess('Password changed successfully');
-      setShowPasswordModal(false);
-      setPasswordError('');
-    } catch (error) {
-      setPasswordError('Error changing password');
-    }
-  };
 
   const handleLogout = async () => {
     try {
