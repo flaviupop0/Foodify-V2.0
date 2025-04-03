@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: lcov.info  # Upload lcov.info directly from the root
+          path: coverage # Upload lcov.info directly from the root
 
   sonarcloud:
     name: SonarCloud Scan
