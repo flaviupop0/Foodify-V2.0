@@ -68,6 +68,12 @@ jobs:
         with:
           name: coverage-report
 
+      - name: Check downloaded coverage directory
+        run: ls -R coverage
+
+      - name: Display lcov.info content
+        run: cat coverage/lcov.info
+
       - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
         with:
@@ -78,4 +84,4 @@ jobs:
             -Dsonar.exclusions=node_modules/**,android/**,ios/**,**/*.test.js,__tests__/**,app/**/*.html,!coverage/index.html
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
         env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }} 
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
