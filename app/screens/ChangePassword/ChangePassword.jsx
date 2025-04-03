@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, TextInput, TouchableOpacity, Text, Image} from 'react-native';
+import {View, TextInput, TouchableOpacity, Text} from 'react-native';
 import PurpleHeader from '../../components/PurpleHeader/PurpleHeader';
 import styles from './styles';
 import Icon from 'react-native-vector-icons/FontAwesome5';
@@ -100,7 +100,9 @@ const ChangePassword = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      {error && <CustomError error={error} />}
+      {error.length > 0 && (
+        <CustomError testID={'error-message'} error={error} />
+      )}
       <TouchableOpacity
         onPress={async () => {
           const result = await handleChangePassword(

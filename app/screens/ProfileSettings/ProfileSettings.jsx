@@ -111,7 +111,7 @@ const ProfileSettings = ({navigation}) => {
             const selectedImage = croppedImage.path;
 
             const storageRef = storage().ref(
-              `profilePictures/${userDataAuth.uid}.jpg`,
+              `profilePictures/${userDataAuth?.uid}.jpg`,
             );
             await storageRef.putFile(selectedImage);
 
@@ -119,7 +119,7 @@ const ProfileSettings = ({navigation}) => {
 
             await firestore()
               .collection('users')
-              .doc(userDataAuth.uid)
+              .doc(userDataAuth?.uid)
               .set({profilePicture: profilePictureURL}, {merge: true});
 
             dispatch(updateUserProfilePicture(profilePictureURL));
@@ -157,7 +157,7 @@ const ProfileSettings = ({navigation}) => {
             const selectedImage = capturedImage.path;
 
             const storageRef = storage().ref(
-              `profilePictures/${userDataAuth.uid}.jpg`,
+              `profilePictures/${userDataAuth?.uid}.jpg`,
             );
             await storageRef.putFile(selectedImage);
 
@@ -165,7 +165,7 @@ const ProfileSettings = ({navigation}) => {
 
             await firestore()
               .collection('users')
-              .doc(userDataAuth.uid)
+              .doc(userDataAuth?.uid)
               .set({profilePicture: profilePictureURL}, {merge: true});
 
             dispatch(updateUserProfilePicture(profilePictureURL));
@@ -213,7 +213,7 @@ const ProfileSettings = ({navigation}) => {
     }
   };
 
-  changeDateOfBirth = async () => {
+  const changeDateOfBirth = async () => {
     try {
       const minimumAgeDate = new Date();
       minimumAgeDate.setFullYear(minimumAgeDate.getFullYear() - 16);
