@@ -8,7 +8,10 @@ import {faArrowLeft} from '@fortawesome/free-solid-svg-icons';
 const BackButton = props => {
   return (
     <SafeAreaView style={style.bigContainer}>
-      <TouchableOpacity style={style.container} onPress={() => props.onPress()}>
+      <TouchableOpacity
+        testID={props.testID}
+        style={style.container}
+        onPress={() => props.onPress()}>
         <FontAwesomeIcon icon={faArrowLeft} color={props.color} />
       </TouchableOpacity>
       <Text style={style.title}>{props.title}</Text>

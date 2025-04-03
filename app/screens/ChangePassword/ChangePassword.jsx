@@ -28,7 +28,7 @@ const ChangePassword = ({navigation}) => {
     <View style={{flex: 1}}>
       <PurpleHeader press={navigation.goBack} title={'Change Password'} />
       <View style={styles.container}>
-        <Text style={styles.title}>
+        <Text testID="headerTitle" style={styles.title}>
           Your new password must be different from previously used password
         </Text>
 
@@ -36,6 +36,7 @@ const ChangePassword = ({navigation}) => {
         <Text style={styles.placeholder}>Current Password</Text>
         <View style={styles.inputContainer}>
           <TextInput
+            testID="currentPasswordInput"
             value={currentPassword}
             onChangeText={setCurrentPassword}
             placeholder="Current Password"
@@ -44,6 +45,7 @@ const ChangePassword = ({navigation}) => {
             style={styles.input}
           />
           <TouchableOpacity
+            testID="visibilityCurrentButton"
             onPress={() =>
               setIsVisibleCurrentPassword(!isVisibleCurrentPassword)
             }>
@@ -60,6 +62,7 @@ const ChangePassword = ({navigation}) => {
         <Text style={styles.placeholder}>New Password</Text>
         <View style={styles.inputContainer}>
           <TextInput
+            testID="newPasswordInput"
             value={newPassword}
             onChangeText={setNewPassword}
             placeholder="New Password"
@@ -68,6 +71,7 @@ const ChangePassword = ({navigation}) => {
             style={styles.input}
           />
           <TouchableOpacity
+            testID="visibilityNewButton"
             onPress={() => setIsVisibleNewPassword(!isVisibleNewPassword)}>
             <Icon
               name={!isVisibleNewPassword ? 'eye' : 'eye-slash'}
@@ -82,6 +86,7 @@ const ChangePassword = ({navigation}) => {
         <Text style={styles.placeholder}>Confirm Password</Text>
         <View style={styles.inputContainer}>
           <TextInput
+            testID="confirmPasswordInput"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
             placeholder="Confirm Password"
@@ -90,6 +95,7 @@ const ChangePassword = ({navigation}) => {
             style={styles.input}
           />
           <TouchableOpacity
+            testID="visibilityConfirmButton"
             onPress={() => setIsVisibleConfirm(!isVisibleConfirm)}>
             <Icon
               name={!isVisibleConfirm ? 'eye' : 'eye-slash'}
@@ -104,6 +110,7 @@ const ChangePassword = ({navigation}) => {
         <CustomError testID={'error-message'} error={error} />
       )}
       <TouchableOpacity
+        testID="changePasswordButton"
         onPress={async () => {
           const result = await handleChangePassword(
             newPassword,

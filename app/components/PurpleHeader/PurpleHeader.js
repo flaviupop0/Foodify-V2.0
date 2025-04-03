@@ -9,7 +9,7 @@ const PurpleHeader = ({press, title}) => {
     <>
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <BackButton onPress={press} color={'white'} />
+          <BackButton testID="backButton" onPress={press} color={'white'} />
           <Header type={2} title={title} color={'white'} />
         </View>
       </SafeAreaView>

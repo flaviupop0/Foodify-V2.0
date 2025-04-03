@@ -6,16 +6,18 @@ import {Routes} from '../../navigation/Routes';
 
 const SuccessChangePassword = ({navigation}) => {
   return (
-    <SafeAreaView style={styles.successContainer}>
-      <Text style={styles.successText}>
+    <SafeAreaView testID={'successContainer'} style={styles.successContainer}>
+      <Text testID="titleText" style={styles.successText}>
         Your password has been changed successfully
       </Text>
       <Image
         style={styles.imageSuccess}
         source={successChangedPassword}
         resizeMode="contain"
+        testID="successImage"
       />
       <TouchableOpacity
+        testID="navigationButton"
         onPress={() => {
           navigation.reset({
             index: 1,
@@ -23,7 +25,9 @@ const SuccessChangePassword = ({navigation}) => {
           });
         }}
         style={[styles.buttonContainer, {position: 'relative'}]}>
-        <Text style={styles.buttonText}>Go to settings</Text>
+        <Text testID="buttonText" style={styles.buttonText}>
+          Go to settings
+        </Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
