@@ -100,7 +100,9 @@ const ChangePassword = ({navigation}) => {
           </TouchableOpacity>
         </View>
       </View>
-      {error.length > 0 && <CustomError error={error} />}
+      {error.length > 0 && (
+        <CustomError testID={'error-message'} error={error} />
+      )}
       <TouchableOpacity
         onPress={async () => {
           const result = await handleChangePassword(

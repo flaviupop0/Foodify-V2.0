@@ -7,7 +7,9 @@ const CustomError = props => {
     <View style={style.mainAlertView}>
       <View style={style.verticalRedLine} />
       <View style={{flex: 1}}>
-        <Text style={style.alertText}>{props.error}</Text>
+        <Text testID={props.testID} style={style.alertText}>
+          {props.error}
+        </Text>
       </View>
     </View>
   );
