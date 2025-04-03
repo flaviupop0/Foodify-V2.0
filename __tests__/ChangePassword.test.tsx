@@ -9,7 +9,7 @@ import SuccessChangePassword from '../app/screens/ChangePassword/SuccessChangePa
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import {it, jest, describe, expect} from '@jest/globals';
 import {successChangedPassword} from '../app/screens/ChangePassword/assets';
-import auth, {EmailAuthProvider} from '@react-native-firebase/auth';
+import auth from '@react-native-firebase/auth';
 
 const mockNavigation = {
   navigate: jest.fn(),
