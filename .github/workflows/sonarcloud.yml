@@ -26,14 +26,14 @@ jobs:
       - name: Run Jest Tests with Coverage
         run: npm run test:coverage
 
-      - name: Check coverage directory
-        run: ls -R coverage
+      - name: Check for lcov.info in the root directory
+        run: ls -R  # List all files to confirm lcov.info is in the root
 
       - name: Upload coverage report
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage/lcov.info  # Ensure we are uploading the correct file inside the coverage folder
+          path: lcov.info  # Upload lcov.info directly from the root
 
   sonarcloud:
     name: SonarCloud Scan
@@ -69,13 +69,10 @@ jobs:
           name: coverage-report
 
       - name: Check downloaded directory
-        run: ls -R  # List all files to verify lcov.info is downloaded to the root directory
-
-      - name: Move lcov.info to coverage folder
-        run: mv lcov.info coverage/lcov.info  # Move the file to the expected path
+        run: ls -R  # List all files to verify lcov.info is downloaded to the root
 
       - name: Display lcov.info content
-        run: cat coverage/lcov.info || echo "lcov.info not found"
+        run: cat lcov.info || echo "lcov.info not found"
 
       - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
@@ -85,3 +82,6 @@ jobs:
             -Dsonar.organization=${{ secrets.SONAR_ORG }}
             -Dsonar.sources=.
             -Dsonar.exclusions=node_modules/**,android/**,ios/**,**/*.test.js,__tests__/**,app/**/*.html,!coverage/index.html
+            -Dsonar.javascript.lcov.reportPaths=lcov.info  # Point directly to lcov.info in the root
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
