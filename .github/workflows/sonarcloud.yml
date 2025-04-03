@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: coverage-report
-          path: coverage
+          path: coverage/lcov.info  # Ensure we are uploading the correct file
 
   sonarcloud:
     name: SonarCloud Scan
@@ -68,11 +68,11 @@ jobs:
         with:
           name: coverage-report
 
-      - name: Check downloaded coverage directory
-        run: ls -R coverage
+      - name: Check downloaded artifact directory
+        run: ls -R  # List all files in the current directory to see if the artifact is downloaded correctly
 
       - name: Display lcov.info content
-        run: cat coverage/lcov.info
+        run: cat coverage/lcov.info || echo "lcov.info not found"
 
       - name: Run SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@v2
