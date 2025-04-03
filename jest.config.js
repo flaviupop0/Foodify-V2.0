@@ -15,4 +15,12 @@ module.exports = {
   transform: {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
+  coveragePathIgnorePatterns: [
+    '/__mocks__/',
+    '/node_modules/',
+    '<rootDir>/android/',
+    '<rootDir>/ios/',
+    '<rootDir>/.github/',
+    '<rootDir>/.bundle/',
+  ],
 };
