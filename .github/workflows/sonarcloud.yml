@@ -39,8 +39,8 @@ jobs:
         uses: SonarSource/sonarcloud-github-action@master
         with:
           args: >
-            -Dsonar.projectKey=<your_project_key>
-            -Dsonar.organization=<your_org>
+            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+            -Dsonar.organization=${{ secrets.SONAR_ORG }}
             -Dsonar.sources=.
             -Dsonar.exclusions=node_modules/**,android/**,ios/**,**/*.test.js,__tests__/**
             -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
