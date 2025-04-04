@@ -11,4 +11,6 @@ export const Routes = {
   ChangePassword: 'Change Password',
   SuccessChangePassword: 'Success Change Password',
   DeleteAccount: 'Delete Account',
+  DeleteAccountSecondStep: 'Delete Account second step',
+  DeleteAccountThirdStep: 'Delete Account third step',
 };

@@ -71,6 +71,24 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: verticalScale(50),
   },
+  backButton: {
+    marginLeft: horizontalScale(20),
+    marginVertical: verticalScale(10),
+  },
+  confirmationMessage: {
+    textAlign: 'center',
+    marginVertical: verticalScale(15),
+    fontWeight: '400',
+    fontSize: scaleFontSize(16),
+    lineHeight: verticalScale(15),
+    marginVertical: verticalScale(25),
+    maxWidth: '80%',
+    alignSelf: 'center',
+  },
+  firstImage: {
+    width: verticalScale(200),
+    height: horizontalScale(200),
+  },
 });
 
 export default styles;

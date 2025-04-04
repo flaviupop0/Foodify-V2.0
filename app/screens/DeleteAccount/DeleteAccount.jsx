@@ -12,6 +12,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {scaleFontSize} from '../../../assets/styles/scaling';
 import CustomButton from '../../components/CustomButton/CustomButton';
 import CustomError from '../../components/CustomError/CustomError';
+import {Routes} from '../../navigation/Routes';
 
 const DeleteAccount = ({navigation}) => {
   const [password, setPassword] = useState('');
@@ -49,7 +50,11 @@ const DeleteAccount = ({navigation}) => {
         </TouchableOpacity>
       </View>
       {error && <CustomError error={error} />}
-      <CustomButton style={styles.buttonContainer} title={'Next'} />
+      <CustomButton
+        onPress={() => navigation.navigate(Routes.DeleteAccountSecondStep)}
+        style={styles.buttonContainer}
+        title={'Next'}
+      />
     </View>
   );
 };
