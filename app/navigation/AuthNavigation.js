@@ -8,6 +8,7 @@ import ProfileSettings from '../screens/ProfileSettings/ProfileSettings';
 import EditFieldScreen from '../screens/EditFieldScreen/EditFieldScreen';
 import ChangePassword from '../screens/ChangePassword/ChangePassword';
 import SuccessChangePassword from '../screens/ChangePassword/SuccessChangePassword';
+import DeleteAccount from '../screens/DeleteAccount/DeleteAccount';
 const Stack = createStackNavigator();
 
 const AuthNavigation = ({onLogout}) => {
@@ -27,6 +28,7 @@ const AuthNavigation = ({onLogout}) => {
         name={Routes.SuccessChangePassword}
         component={SuccessChangePassword}
       />
+      <Stack.Screen name={Routes.DeleteAccount} component={DeleteAccount} />
     </Stack.Navigator>
   );
 };

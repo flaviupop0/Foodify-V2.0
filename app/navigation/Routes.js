@@ -10,4 +10,5 @@ export const Routes = {
   EditField: 'Edit Field',
   ChangePassword: 'Change Password',
   SuccessChangePassword: 'Success Change Password',
+  DeleteAccount: 'Delete Account',
 };
