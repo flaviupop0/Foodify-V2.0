@@ -13,6 +13,7 @@ const DeleteAccountSecondStep = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
+        testID="goBackButton"
         onPress={() => {
           goBack(navigation);
         }}
@@ -30,6 +31,7 @@ const DeleteAccountSecondStep = ({navigation}) => {
         </Text>
       </View>
       <CustomButton
+        testID="cancelButton"
         style={[
           styles.buttonContainer,
           {
@@ -46,6 +48,7 @@ const DeleteAccountSecondStep = ({navigation}) => {
         }}
       />
       <CustomButton
+        testID="confirmButton"
         onPress={() => {
           navigation.navigate(Routes.DeleteAccountThirdStep);
         }}

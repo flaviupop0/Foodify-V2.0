@@ -21,6 +21,7 @@ const DeleteAccountThirdStep = () => {
           style={{width: horizontalScale(280), height: verticalScale(280)}}
         />
         <CustomButton
+          testID="deleteButton"
           onPress={async () => {
             await deleteAccount();
           }}

@@ -34,6 +34,7 @@ const DeleteAccount = ({navigation}) => {
       <Text style={styles.placeHolder}>Password</Text>
       <View style={styles.inputContainer}>
         <TextInput
+          testID="passwordInput"
           secureTextEntry={isPasswordVisible}
           placeholder="Enter password"
           style={styles.textInput}
@@ -41,6 +42,7 @@ const DeleteAccount = ({navigation}) => {
           onChangeText={setPassword}
         />
         <TouchableOpacity
+          testID="changePasswordVisibilityButton"
           onPress={() => setIsPasswordVisible(!isPasswordVisible)}>
           <Icon
             name={!isPasswordVisible ? 'eye' : 'eye-slash'}
@@ -50,8 +52,9 @@ const DeleteAccount = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
-      {error.length > 0 && <CustomError error={error} />}
+      {error.length > 0 && <CustomError testID="customError" error={error} />}
       <CustomButton
+        testID="nextButton"
         onPress={async () => {
           const correctPassword = await checkPassword(password);
           if (correctPassword === true) {
