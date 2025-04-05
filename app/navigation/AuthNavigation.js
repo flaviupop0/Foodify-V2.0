@@ -39,6 +39,7 @@ const AuthNavigation = ({onLogout}) => {
       <Stack.Screen
         name={Routes.DeleteAccountThirdStep}
         component={DeleteAccountThirdStep}
+        onLogout={onLogout}
       />
     </Stack.Navigator>
   );

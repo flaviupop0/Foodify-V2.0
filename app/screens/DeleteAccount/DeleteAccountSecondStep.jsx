@@ -7,7 +7,7 @@ import {Routes} from '../../navigation/Routes';
 import Header from '../../components/Header/Header';
 import {wonderingImage} from './assets';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import goBack from './utilities';
+import {goBack} from './utilities';
 
 const DeleteAccountSecondStep = ({navigation}) => {
   return (
@@ -46,7 +46,9 @@ const DeleteAccountSecondStep = ({navigation}) => {
         }}
       />
       <CustomButton
-        onPress={() => navigation.navigate(Routes.DeleteAccountThirdStep)}
+        onPress={() => {
+          navigation.navigate(Routes.DeleteAccountThirdStep);
+        }}
         style={[styles.buttonContainer, {bottom: verticalScale(30)}]}
         title={'Confirm'}
       />

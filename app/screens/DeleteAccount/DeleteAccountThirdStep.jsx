@@ -5,8 +5,9 @@ import Header from '../../components/Header/Header';
 import styles from './styles';
 import {horizontalScale, verticalScale} from '../../../assets/styles/scaling';
 import CustomButton from '../../components/CustomButton/CustomButton';
+import {deleteAccount} from './utilities';
 
-const DeleteAccountThirdStep = ({navigation}) => {
+const DeleteAccountThirdStep = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={{alignItems: 'center', marginTop: verticalScale(20)}}>
@@ -19,7 +20,13 @@ const DeleteAccountThirdStep = ({navigation}) => {
           source={confirmImage}
           style={{width: horizontalScale(280), height: verticalScale(280)}}
         />
-        <CustomButton title={'Close the app'} style={styles.buttonContainer} />
+        <CustomButton
+          onPress={async () => {
+            await deleteAccount();
+          }}
+          title={'Close the app'}
+          style={styles.buttonContainer}
+        />
       </View>
     </SafeAreaView>
   );
