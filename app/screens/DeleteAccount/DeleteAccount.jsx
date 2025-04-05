@@ -50,7 +50,7 @@ const DeleteAccount = ({navigation}) => {
           />
         </TouchableOpacity>
       </View>
-      {error && <CustomError error={error} />}
+      {error.length > 0 && <CustomError error={error} />}
       <CustomButton
         onPress={async () => {
           const correctPassword = await checkPassword(password);
