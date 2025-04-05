@@ -23,5 +23,6 @@ describe('All 3 parts are rendered', () => {
 
   it('should render correctly third delete account', () => {
     render(<DeleteAccountThirdStep />);
+    console.log('Just to test');
   });
 });
