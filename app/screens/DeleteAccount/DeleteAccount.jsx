@@ -14,7 +14,7 @@ const DeleteAccount = ({navigation}) => {
   const [error, setError] = useState('');
   const [isPasswordVisible, setIsPasswordVisible] = useState(true);
 
-  resetError = () => {
+  const resetError = () => {
     setTimeout(() => {
       setError('');
     }, 3000);
