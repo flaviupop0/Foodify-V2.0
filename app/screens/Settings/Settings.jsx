@@ -94,7 +94,9 @@ const Settings = ({navigation}) => {
           />
         </TouchableOpacity>
         <View style={styles.border} />
-        <TouchableOpacity style={styles.options}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate(Routes.DeleteAccount)}
+          style={styles.options}>
           <Ionicons
             name="trash-outline"
             color="grey"
