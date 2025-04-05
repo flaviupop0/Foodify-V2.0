@@ -12,6 +12,7 @@ import Header from '../../components/Header/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {scaleFontSize, verticalScale} from '../../../assets/styles/scaling';
+
 const EditFieldScreen = ({route, navigation}) => {
   const {fieldName, initialValue, onSave, fieldUpdate} = route.params;
   const [value, setValue] = useState(initialValue);
@@ -106,9 +107,12 @@ const EditFieldScreen = ({route, navigation}) => {
         <Header type={1} title={`Enter your new ${fieldName}`} />
         <Text style={styles.subtitle}>{fieldName}</Text>
         <TextInput
+          testID="valueField"
           style={styles.input}
           value={value}
-          autoCapitalize={fieldName === 'Username' ? 'none' : 'words'}
+          autoCapitalize={
+            fieldName === 'Username' || fieldName === 'Email' ? 'none' : 'words'
+          }
           onChangeText={text => {
             setValue(text);
             setError('');
@@ -122,9 +126,10 @@ const EditFieldScreen = ({route, navigation}) => {
             </Text>
             <View style={styles.passwordInputContainer}>
               <TextInput
+                testID="passwordInput"
                 style={styles.passwordInput}
                 value={password}
-                autoCapitalize={fieldName === 'Username' ? 'none' : 'words'}
+                autoCapitalize={'none'}
                 onChangeText={text => {
                   setPassword(text);
                   setError('');
@@ -133,6 +138,7 @@ const EditFieldScreen = ({route, navigation}) => {
                 secureTextEntry={isVisibleCurrentPassword}
               />
               <TouchableOpacity
+                testID="setPasswordVisibleButton"
                 onPress={() =>
                   setIsVisibleCurrentPassword(!isVisibleCurrentPassword)
                 }>
@@ -146,8 +152,11 @@ const EditFieldScreen = ({route, navigation}) => {
             </View>
           </>
         )}
-        {error ? <CustomError error={error} /> : null}
-        <TouchableOpacity style={styles.button2} onPress={handleSave}>
+        {error.length > 0 && <CustomError testID="customError" error={error} />}
+        <TouchableOpacity
+          testID="saveButton"
+          style={styles.button2}
+          onPress={handleSave}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </View>

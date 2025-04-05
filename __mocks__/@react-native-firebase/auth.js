@@ -7,6 +7,9 @@ const mockFirebaseUser = {
   updatePassword: jest.fn(() => Promise.resolve()),
 };
 
+const mockUpdateEmail = jest.fn();
+const mockSendEmailVerification = jest.fn(() => Promise.resolve());
+
 const mockAuth = {
   currentUser: mockFirebaseUser,
   onIdTokenChanged: jest.fn(callback => {
@@ -35,4 +38,13 @@ auth.EmailAuthProvider = {
   })),
 };
 
-export default auth;
+module.exports = {
+  __esModule: true,
+  default: auth,
+  updateEmail: mockUpdateEmail,
+  sendEmailVerification: mockSendEmailVerification,
+
+  _mockFirebaseUser: mockFirebaseUser,
+  _mockUpdateEmail: mockUpdateEmail,
+  _mockSendEmailVerification: mockSendEmailVerification,
+};
