@@ -4,15 +4,23 @@ import PurpleHeader from '../../components/PurpleHeader/PurpleHeader';
 import styles from './styles';
 import CustomError from '../../components/CustomError/CustomError';
 import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
+import auth, {
+  sendEmailVerification,
+  updateEmail,
+} from '@react-native-firebase/auth';
 import Header from '../../components/Header/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import {scaleFontSize, verticalScale} from '../../../assets/styles/scaling';
 
 const EditFieldScreen = ({route, navigation}) => {
   const {fieldName, initialValue, onSave, fieldUpdate} = route.params;
   const [value, setValue] = useState(initialValue);
   const [error, setError] = useState('');
   const [currentUser, setUserDataAuth] = useState(null);
+  const [password, setPassword] = useState('');
+  const [isVisibleCurrentPassword, setIsVisibleCurrentPassword] =
+    useState(true);
 
   useEffect(() => {
     const getUserData = async () => {
@@ -59,6 +67,26 @@ const EditFieldScreen = ({route, navigation}) => {
           return;
         }
       }
+      if (fieldUpdate === 'email') {
+        try {
+          const user = auth().currentUser;
+          const credential = auth.EmailAuthProvider.credential(
+            user.email,
+            password,
+          );
+          await user.reauthenticateWithCredential(credential);
+          await updateEmail(user, value);
+          await sendEmailVerification(user);
+        } catch (error) {
+          console.log(error.code);
+          if (error.code === 'auth/wrong-password') {
+            setError('Your current password is wrong');
+          } else if (error.code === 'auth/email-already-in-use') {
+            setError('The email address is already in use by another account');
+          }
+          return;
+        }
+      }
       await firestore()
         .collection('users')
         .doc(userId)
@@ -79,17 +107,56 @@ const EditFieldScreen = ({route, navigation}) => {
         <Header type={1} title={`Enter your new ${fieldName}`} />
         <Text style={styles.subtitle}>{fieldName}</Text>
         <TextInput
+          testID="valueField"
           style={styles.input}
           value={value}
-          autoCapitalize={fieldName === 'Username' ? 'none' : 'words'}
+          autoCapitalize={
+            fieldName === 'Username' || fieldName === 'Email' ? 'none' : 'words'
+          }
           onChangeText={text => {
             setValue(text);
             setError('');
           }}
           placeholder={`Enter ${fieldName.toLowerCase()}`}
         />
-        {error ? <CustomError error={error} /> : null}
-        <TouchableOpacity style={styles.button2} onPress={handleSave}>
+        {fieldName === 'Email' && (
+          <>
+            <Text style={[styles.subtitle, {marginTop: verticalScale(20)}]}>
+              Password
+            </Text>
+            <View style={styles.passwordInputContainer}>
+              <TextInput
+                testID="passwordInput"
+                style={styles.passwordInput}
+                value={password}
+                autoCapitalize={'none'}
+                onChangeText={text => {
+                  setPassword(text);
+                  setError('');
+                }}
+                placeholder={`Enter password`}
+                secureTextEntry={isVisibleCurrentPassword}
+              />
+              <TouchableOpacity
+                testID="setPasswordVisibleButton"
+                onPress={() =>
+                  setIsVisibleCurrentPassword(!isVisibleCurrentPassword)
+                }>
+                <Icon
+                  name={!isVisibleCurrentPassword ? 'eye' : 'eye-slash'}
+                  size={scaleFontSize(15)}
+                  color={'gray'}
+                  style={styles.icon}
+                />
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
+        {error.length > 0 && <CustomError testID="customError" error={error} />}
+        <TouchableOpacity
+          testID="saveButton"
+          style={styles.button2}
+          onPress={handleSave}>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableOpacity>
       </View>
