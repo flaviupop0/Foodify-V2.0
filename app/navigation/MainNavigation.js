@@ -4,6 +4,7 @@ import HomeScreen from '../screens/HomeScreen/HomeScreen';
 import RegisterScreen from '../screens/RegisterScreen/RegisterScreen';
 import AuthScreen from '../screens/Login/AuthScreen';
 import ForgotPassword from '../screens/ForgotPassword/ForgotPassword';
+import React from 'react';
 
 const Stack = createStackNavigator();
 

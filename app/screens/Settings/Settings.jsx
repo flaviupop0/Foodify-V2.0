@@ -7,6 +7,7 @@ import {scaleFontSize} from '../../../assets/styles/scaling';
 import {Routes} from '../../navigation/Routes';
 import {useDispatch, useSelector} from 'react-redux';
 import CustomSuccessModal from '../../components/SuccessPopUp/SuccessPopUp';
+import {updateUserProfile} from '../../redux/slices/userSlice';
 
 const Settings = ({navigation}) => {
   const user = useSelector(state => state.user.profile);
