@@ -11,6 +11,8 @@ export default () => ({
         success({exists: true, data: () => ({mockField: 'live'})});
         return () => {}; // unsubscribe
       }),
+      orderBy: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockReturnThis(),
     })),
     add: jest.fn(() => Promise.resolve({id: 'mock-doc-id'})),
     where: jest.fn(() => ({

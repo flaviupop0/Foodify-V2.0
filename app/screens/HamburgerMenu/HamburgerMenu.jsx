@@ -8,11 +8,11 @@ import {
   StatusBar,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import auth from '@react-native-firebase/auth';
 import CustomError from '../../components/CustomError/CustomError';
 import BackButton from '../../components/BackButton/BackButton';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {scaleFontSize} from '../../../assets/styles/scaling';
+import auth from '@react-native-firebase/auth';
 import styles from './style';
 import {Routes} from '../../navigation/Routes';
 import {useSelector, useDispatch} from 'react-redux';
@@ -21,6 +21,7 @@ import {clearUser} from '../../redux/slices/userSlice';
 const HamburgerMenu = ({navigation, onLogout}) => {
   const dispatch = useDispatch();
   const user = useSelector(state => state.user.profile);
+  const userUID = auth().currentUser.uid;
   const [error, setError] = useState('');
 
   const handleLogout = async () => {
@@ -57,7 +58,14 @@ const HamburgerMenu = ({navigation, onLogout}) => {
         <Text style={styles.subtitle}>Messages</Text>
         <Ionicons name="arrow-forward" color="grey" size={scaleFontSize(25)} />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.options}>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate(Routes.UserProfile, {
+            userID: userUID,
+            fromSettings: true,
+          });
+        }}
+        style={styles.options}>
         <Ionicons name="person-outline" color="grey" size={scaleFontSize(25)} />
         <Text style={styles.subtitle}>My profile</Text>
         <Ionicons name="arrow-forward" color="grey" size={scaleFontSize(25)} />

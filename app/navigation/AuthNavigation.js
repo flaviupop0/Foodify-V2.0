@@ -11,6 +11,7 @@ import SuccessChangePassword from '../screens/ChangePassword/SuccessChangePasswo
 import DeleteAccount from '../screens/DeleteAccount/DeleteAccount';
 import DeleteAccountSecondStep from '../screens/DeleteAccount/DeleteAccountSecondStep';
 import DeleteAccountThirdStep from '../screens/DeleteAccount/DeleteAccountThirdStep';
+import UserProfile from '../screens/UserProfile/UserProfile';
 
 const Stack = createStackNavigator();
 
@@ -41,6 +42,7 @@ const AuthNavigation = ({onLogout}) => {
         component={DeleteAccountThirdStep}
         onLogout={onLogout}
       />
+      <Stack.Screen name={Routes.UserProfile} component={UserProfile} />
     </Stack.Navigator>
   );
 };
