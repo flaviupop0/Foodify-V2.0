@@ -1,5 +1,5 @@
 import React from 'react';
-import firestore from '../../../__mocks__/@react-native-firebase/firestore';
+import firestore from '@react-native-firebase/firestore';
 
 export const getUserData = async userID => {
   try {
@@ -14,5 +14,27 @@ export const getUserData = async userID => {
   } catch (error) {
     console.error('Error fetching user data: ', error);
     return null;
+  }
+};
+
+export const getAllPosts = async userID => {
+  try {
+    const postsSnapshot = await firestore()
+      .collection('users')
+      .doc(userID)
+      .collection('posts')
+      .orderBy('datePosted', 'desc')
+      .limit(10)
+      .get();
+
+    const posts = [];
+    postsSnapshot.forEach(doc => {
+      posts.push({id: doc.id, ...doc.data()});
+    });
+
+    return posts;
+  } catch (error) {
+    console.error('Error fetching user posts: ', error);
+    return [];
   }
 };

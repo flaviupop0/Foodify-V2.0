@@ -119,6 +119,12 @@ const RegisterScreen = ({navigation}) => {
         userName: userName,
         dateOfBirth: dateOfBirth.toISOString(),
         profilePicture: defaultProfilePictureURL,
+        followers: [],
+        following: [],
+        posts: [],
+        likedPosts: [],
+        savedPosts: [],
+        bio: "I can't wait to meet you all!",
       });
       navigation.navigate('Login');
       await sendEmailVerification(user);
