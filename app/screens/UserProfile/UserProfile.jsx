@@ -37,6 +37,7 @@ const UserProfile = ({route, navigation}) => {
       .then(data => {
         if (data) {
           setPostsData(data);
+          console.log('Posts data: ', data);
           setIsLoading(false);
         } else {
           console.log('No posts data found');
@@ -95,7 +96,7 @@ const UserProfile = ({route, navigation}) => {
 
                 <View style={{flexDirection: 'column'}}>
                   <Text style={styles.numberOfCategory}>
-                    {userData?.followers.length}
+                    {userData?.followers?.length}
                   </Text>
                   <Text style={styles.categoryText}>
                     follower{userData?.followers?.length !== 1 ? 's' : ''}
@@ -108,7 +109,7 @@ const UserProfile = ({route, navigation}) => {
                     marginRight: horizontalScale(10),
                   }}>
                   <Text style={styles.numberOfCategory}>
-                    {userData?.following.length}
+                    {userData?.following?.length}
                   </Text>
                   <Text style={styles.categoryText}>following</Text>
                 </View>
@@ -131,6 +132,7 @@ const UserProfile = ({route, navigation}) => {
           </View>
 
           <FlatList
+            testID="FlatList"
             contentContainerStyle={{
               paddingBottom: verticalScale(100),
             }}
