@@ -121,7 +121,7 @@ const RegisterScreen = ({navigation}) => {
         profilePicture: defaultProfilePictureURL,
         followers: [],
         following: [],
-        posts: [],
+        posts: 0,
         likedPosts: [],
         savedPosts: [],
         bio: "I can't wait to meet you all!",

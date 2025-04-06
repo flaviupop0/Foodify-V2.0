@@ -131,8 +131,13 @@ const UserProfile = ({route, navigation}) => {
           </View>
 
           <FlatList
-            contentContainerStyle={{paddingBottom: verticalScale(100)}}
-            style={{marginTop: verticalScale(10)}}
+            contentContainerStyle={{
+              paddingBottom: verticalScale(100),
+            }}
+            style={{
+              marginTop: verticalScale(10),
+              marginHorizontal: horizontalScale(10),
+            }}
             data={postsData}
             keyExtractor={(item, index) => index.toString()}
             renderItem={({item}) => (
@@ -145,6 +150,18 @@ const UserProfile = ({route, navigation}) => {
                   })
                 }
               />
+            )}
+            ListEmptyComponent={() => (
+              <Text
+                style={{
+                  textAlign: 'center',
+                  marginTop: verticalScale(20),
+                  fontSize: scaleFontSize(20),
+                  color: '#6e6e6e',
+                  fontWeight: 'bold',
+                }}>
+                No posts yet
+              </Text>
             )}
             numColumns={2}
             showsVerticalScrollIndicator={false}

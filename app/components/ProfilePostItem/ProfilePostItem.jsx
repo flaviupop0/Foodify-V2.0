@@ -7,7 +7,7 @@ const ProfilePostItem = ({post}) => {
   return (
     <TouchableOpacity style={styles.container}>
       <Image source={{uri: post.pictures[0]}} style={styles.image} />
-      <View style={{paddingLeft: horizontalScale(5)}}>
+      <View style={{paddingLeft: horizontalScale(5), overflow: 'hidden'}}>
         <Header type={2} title={post.title} color={'#8a2be2'} />
       </View>
     </TouchableOpacity>
