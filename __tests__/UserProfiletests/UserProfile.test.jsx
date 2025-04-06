@@ -1,14 +1,17 @@
 import React from 'react';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
-import UserProfile from '../app/screens/UserProfile/UserProfile';
-import {getUserData, getAllPosts} from '../app/screens/UserProfile/utilities';
+import UserProfile from '../../app/screens/UserProfile/UserProfile';
+import {
+  getUserData,
+  getAllPosts,
+} from '../../app/screens/UserProfile/utilities';
 import {it, describe, expect, beforeEach} from '@jest/globals';
 
-jest.mock('react-native-vector-icons/Ionicons', () => 'Icon');
-jest.mock('../app/screens/UserProfile/utilities', () => ({
+jest.mock('../../app/screens/UserProfile/utilities', () => ({
   getUserData: jest.fn(() => Promise.resolve({})),
   getAllPosts: jest.fn(() => Promise.resolve([])),
 }));
+jest.mock('react-native-vector-icons/Ionicons', () => 'Icon');
 
 describe('UserProfile Component', () => {
   const mockNavigation = {
@@ -26,7 +29,6 @@ describe('UserProfile Component', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.spyOn(console, 'log').mockImplementation(() => {});
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
     jest.spyOn(console, 'error').mockImplementation(() => {});
   });
 
@@ -40,7 +42,7 @@ describe('UserProfile Component', () => {
   it('renders user data and posts when isLoading is false', async () => {
     const getUserDataSpy = jest.spyOn({getUserData}, 'getUserData');
     const getAllPostsSpy = jest.spyOn({getAllPosts}, 'getAllPosts');
-    getUserDataSpy.mockResolvedValue({
+    getUserDataSpy.mockResolvedValueOnce({
       userName: 'JohnDoe',
       firstName: 'John',
       lastName: 'Doe',
@@ -51,7 +53,7 @@ describe('UserProfile Component', () => {
       bio: 'Hello, this is my bio!',
     });
 
-    getAllPostsSpy.mockResolvedValue([
+    getAllPostsSpy.mockResolvedValueOnce([
       {
         Comments: {},
         datePosted: '2025-04-05T10:33:32.000Z',
@@ -79,8 +81,8 @@ describe('UserProfile Component', () => {
   it('calls getUserData and getAllPosts with correct userID', async () => {
     const getUserDataSpy = jest.spyOn({getUserData}, 'getUserData');
     const getAllPostsSpy = jest.spyOn({getAllPosts}, 'getAllPosts');
-    getUserDataSpy.mockResolvedValue(null);
-    getAllPostsSpy.mockResolvedValue([]);
+    getUserDataSpy.mockResolvedValueOnce(null);
+    getAllPostsSpy.mockResolvedValueOnce([]);
 
     render(<UserProfile route={mockRoute} navigation={mockNavigation} />);
 
@@ -93,8 +95,8 @@ describe('UserProfile Component', () => {
   it('navigates back when the header back button is pressed', async () => {
     const getUserDataSpy = jest.spyOn({getUserData}, 'getUserData');
     const getAllPostsSpy = jest.spyOn({getAllPosts}, 'getAllPosts');
-    getUserDataSpy.mockResolvedValue(null);
-    getAllPostsSpy.mockResolvedValue([]);
+    getUserDataSpy.mockResolvedValueOnce(null);
+    getAllPostsSpy.mockResolvedValueOnce([]);
 
     const {getByTestId} = render(
       <UserProfile route={mockRoute} navigation={mockNavigation} />,

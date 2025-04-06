@@ -4,7 +4,6 @@ import firestore from '@react-native-firebase/firestore';
 export const getUserData = async userID => {
   try {
     const userDoc = await firestore().collection('users').doc(userID).get();
-
     if (userDoc.exists) {
       return userDoc.data();
     } else {
