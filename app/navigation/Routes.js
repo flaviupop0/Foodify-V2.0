@@ -14,4 +14,5 @@ export const Routes = {
   DeleteAccountSecondStep: 'Delete Account second step',
   DeleteAccountThirdStep: 'Delete Account third step',
   UserProfile: 'User profile',
+  ViewPost: 'View post',
 };
