@@ -12,6 +12,7 @@ import DeleteAccount from '../screens/DeleteAccount/DeleteAccount';
 import DeleteAccountSecondStep from '../screens/DeleteAccount/DeleteAccountSecondStep';
 import DeleteAccountThirdStep from '../screens/DeleteAccount/DeleteAccountThirdStep';
 import UserProfile from '../screens/UserProfile/UserProfile';
+import ViewPost from '../screens/ViewPost/ViewPost';
 
 const Stack = createStackNavigator();
 
@@ -43,6 +44,7 @@ const AuthNavigation = ({onLogout}) => {
         onLogout={onLogout}
       />
       <Stack.Screen name={Routes.UserProfile} component={UserProfile} />
+      <Stack.Screen name={Routes.ViewPost} component={ViewPost} />
     </Stack.Navigator>
   );
 };

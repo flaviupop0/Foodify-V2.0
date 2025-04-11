@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {getAllPosts, getUserData} from './utilities';
 import PurpleHeader from '../../components/PurpleHeader/PurpleHeader';
 import CustomLoader from '../../components/CustomLoader/CustomLoader';
@@ -12,6 +12,7 @@ import {
 } from '../../../assets/styles/scaling';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfilePostItem from '../../components/ProfilePostItem/ProfilePostItem';
+import {Routes} from '../../navigation/Routes';
 
 const UserProfile = ({route, navigation}) => {
   const userID = route.params.userID;
@@ -146,9 +147,9 @@ const UserProfile = ({route, navigation}) => {
               <ProfilePostItem
                 post={item}
                 onPress={() =>
-                  navigation.navigate('PostDetails', {
-                    postID: item.postID,
-                    userID: userID,
+                  navigation.navigate(Routes.ViewPost, {
+                    postData: item,
+                    userData: userData,
                   })
                 }
               />

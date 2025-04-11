@@ -1,11 +1,15 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Header from '../Header/Header';
 import {horizontalScale, verticalScale} from '../../../assets/styles/scaling';
 
-const ProfilePostItem = ({post}) => {
+const ProfilePostItem = ({post, onPress}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        onPress();
+      }}>
       <Image source={{uri: post.pictures[0]}} style={styles.image} />
       <View style={{paddingLeft: horizontalScale(5), overflow: 'hidden'}}>
         <Header type={2} title={post.title} color={'#8a2be2'} />
