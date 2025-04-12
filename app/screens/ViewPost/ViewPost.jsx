@@ -3,14 +3,15 @@ import {View, Text, Image, TouchableOpacity} from 'react-native';
 import ProfilePicture from '../../components/ProfilePicture/ProfilePicture';
 import PurpleHeader from '../../components/PurpleHeader/PurpleHeader';
 import styles from './styles';
-import {formatDate, isLiked} from './utilities';
+import {formatDate, isLiked, likePost} from './utilities';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {horizontalScale} from '../../../assets/styles/scaling';
+import {useSelector} from 'react-redux';
 
 const ViewPost = ({route, navigation}) => {
   const {postData, userData} = route.params;
   const [isLikedByCurrentUser, setIsLikedByCurrentUser] = useState(false);
-
+  const currentUserData = useSelector(state => state.user.profile);
   useEffect(() => {
     const checkIfLiked = async () => {
       const liked = await isLiked(postData.likes);
@@ -19,9 +20,6 @@ const ViewPost = ({route, navigation}) => {
 
     checkIfLiked();
   }, [postData.likes]);
-
-  console.log('Post Data:', postData);
-  console.log('User Data:', userData);
 
   const renderPhotos = () => {
     const photosToShow = postData.pictures.slice(0, 4);
@@ -69,6 +67,17 @@ const ViewPost = ({route, navigation}) => {
         <View style={styles.interactionSection}>
           {/* Like Button */}
           <TouchableOpacity
+            onPress={async () => {
+              const result = await likePost(
+                postData.id,
+                postData.postedBy,
+                isLikedByCurrentUser,
+                currentUserData,
+                navigation,
+                route.params,
+              );
+              setIsLikedByCurrentUser(result);
+            }}
             style={[
               styles.interactionButton,
               {marginLeft: horizontalScale(10)},
@@ -81,9 +90,9 @@ const ViewPost = ({route, navigation}) => {
             <Text
               style={[
                 styles.likes,
-                {color: isLikedByCurrentUser ? '#8a2be2' : '888'},
+                {color: isLikedByCurrentUser ? '#8a2be2' : '#888'},
               ]}>
-              {postData.likes.length} Like{' '}
+              {postData.likes.length} Like
               {postData.likes.length !== 1 ? 's' : ''}
             </Text>
           </TouchableOpacity>
