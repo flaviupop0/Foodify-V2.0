@@ -3,6 +3,7 @@ import {View, Text, TextInput, TouchableOpacity, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './styles';
 import ProfilePicture from '../ProfilePicture/ProfilePicture';
+import {formatDate} from '../../screens/ViewPost/utilities';
 
 const Comments = ({comments, onAddComment}) => {
   const [newComment, setNewComment] = useState('');
@@ -12,17 +13,6 @@ const Comments = ({comments, onAddComment}) => {
       onAddComment(newComment.trim());
       setNewComment('');
     }
-  };
-
-  const formatDate = dateString => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
   };
 
   return (
