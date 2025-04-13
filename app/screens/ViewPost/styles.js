@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   likes: {
     fontSize: scaleFontSize(14),
     fontWeight: 'bold',
-    color: '888',
+    color: '#888',
     marginLeft: horizontalScale(2),
   },
   comments: {
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   twoPhotoWrapper: {
-    width: '50%', // Two photos side by side
+    width: '50%',
     aspectRatio: 1,
     marginBottom: 10,
   },

@@ -158,7 +158,11 @@ const ViewPost = ({route, navigation}) => {
                 right: 0,
                 top: horizontalScale(5),
               },
-            ]}>
+            ]}
+            accessibilityLabel={
+              isSavedByCurrentUser ? 'Unsave post' : 'Save post'
+            }
+            accessibilityRole="button">
             <Icon
               name="bookmark"
               size={20}

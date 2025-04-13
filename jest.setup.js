@@ -23,6 +23,7 @@ jest.mock('@react-navigation/native', () => {
       goBack: jest.fn(),
     }),
     NavigationContainer: ({children}) => children,
+    useIsFocused: jest.fn(() => true),
   };
 });
 
@@ -70,16 +71,4 @@ jest.mock('react-native-vector-icons/MaterialCommunityIcons');
 jest.mock('react-native-vector-icons/FontAwesome5');
 jest.mock('react-native-permissions');
 jest.mock('react-native-image-crop-picker');
-
-jest.mock('@react-navigation/native', () => {
-  return {
-    useNavigation: () => ({
-      navigate: jest.fn(),
-      goBack: jest.fn(),
-    }),
-    NavigationContainer: ({children}) => children,
-    useIsFocused: jest.fn(() => true),
-  };
-});
-
 jest.mock('@gorhom/bottom-sheet');
