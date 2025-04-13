@@ -26,7 +26,7 @@ jest.mock('@react-native-firebase/firestore', () => ({
     }),
   ),
   doc: jest.fn(),
-  updateDoc: jest.fn(() => Promise.resolve(true)), // Optionally mock `doc` function if you use it directly
+  updateDoc: jest.fn(() => Promise.resolve(true)),
 }));
 
 const mockPostData = {

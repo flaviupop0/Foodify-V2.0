@@ -59,7 +59,7 @@ const Comments = ({comments, onAddComment}) => {
             </Text>
           </View>
         }
-        contentContainerStyle={styles.commentsList} // Ensures proper padding for the list
+        contentContainerStyle={styles.commentsList}
       />
 
       {/* Add Comment Input */}
