@@ -1,3 +1,4 @@
+import {jest, it, describe, expect, beforeEach} from '@jest/globals';
 import React from 'react';
 import {render, fireEvent, waitFor} from '@testing-library/react-native';
 import UserProfile from '../../app/screens/UserProfile/UserProfile';
@@ -5,7 +6,6 @@ import {
   getUserData,
   getAllPosts,
 } from '../../app/screens/UserProfile/utilities';
-import {it, describe, expect, beforeEach} from '@jest/globals';
 
 jest.mock('../../app/screens/UserProfile/utilities', () => ({
   getUserData: jest.fn(() => Promise.resolve({})),

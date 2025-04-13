@@ -182,6 +182,7 @@ const ViewPost = ({route, navigation}) => {
         <View style={styles.interactionSection}>
           {/* Like Button */}
           <TouchableOpacity
+            testID="likeButton"
             onPress={async () => {
               const result = await likePost(
                 postData.id,
