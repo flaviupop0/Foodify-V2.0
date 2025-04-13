@@ -42,7 +42,6 @@ const UserProfile = ({route, navigation}) => {
         .then(data => {
           if (data) {
             setPostsData(data);
-            console.log('Posts data: ', data);
             setIsLoading(false);
           } else {
             console.log('No posts data found');
