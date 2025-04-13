@@ -54,6 +54,11 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: verticalScale(10),
   },
+  photo2: {
+    width: '95%',
+    height: '95%',
+    borderRadius: verticalScale(10),
+  },
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -97,6 +102,51 @@ const styles = StyleSheet.create({
     borderRadius: Dimensions.get('window').height * 1,
     borderColor: '#8a2be2',
     borderWidth: 2,
+  },
+  closeButton: {
+    alignSelf: 'flex-end',
+    marginRight: horizontalScale(10),
+    backgroundColor: '#888',
+    borderRadius: 100,
+    width: horizontalScale(25),
+    height: verticalScale(20),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  bottomSheetContainer: {
+    flex: 1,
+    paddingBottom: verticalScale(10),
+  },
+  shadow: {
+    shadowColor: '#000',
+    shadowOffset: {width: 0, height: -5},
+    shadowOpacity: 0.5,
+    shadowRadius: 10,
+    elevation: 5,
+  },
+  singlePhotoWrapper: {
+    width: '100%',
+    aspectRatio: 1, // Makes the photo square
+  },
+  singlePhoto: {
+    width: '100%',
+    height: '100%',
+    borderRadius: 10,
+  },
+  twoPhotoWrapper: {
+    width: '50%', // Two photos side by side
+    aspectRatio: 1,
+    marginBottom: 10,
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+  },
+  centeredRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    width: '100%',
   },
 });
 
