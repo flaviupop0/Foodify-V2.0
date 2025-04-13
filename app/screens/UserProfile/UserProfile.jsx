@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, TouchableOpacity, FlatList} from 'react-native';
+import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import {getAllPosts, getUserData} from './utilities';
 import PurpleHeader from '../../components/PurpleHeader/PurpleHeader';
 import CustomLoader from '../../components/CustomLoader/CustomLoader';
@@ -12,6 +12,8 @@ import {
 } from '../../../assets/styles/scaling';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ProfilePostItem from '../../components/ProfilePostItem/ProfilePostItem';
+import {Routes} from '../../navigation/Routes';
+import {useIsFocused} from '@react-navigation/native';
 
 const UserProfile = ({route, navigation}) => {
   const userID = route.params.userID;
@@ -19,34 +21,37 @@ const UserProfile = ({route, navigation}) => {
   const [userData, setUserData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [postsData, setPostsData] = useState(null);
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    getUserData(userID)
-      .then(data => {
-        if (data) {
-          setUserData(data);
-        } else {
-          console.log('No user data found');
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching user data: ', error);
-      });
+    if (isFocused) {
+      setIsLoading(true);
+      getUserData(userID)
+        .then(data => {
+          if (data) {
+            setUserData(data);
+          } else {
+            console.log('No user data found');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching user data: ', error);
+        });
 
-    getAllPosts(userID)
-      .then(data => {
-        if (data) {
-          setPostsData(data);
-          console.log('Posts data: ', data);
-          setIsLoading(false);
-        } else {
-          console.log('No posts data found');
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching user posts: ', error);
-      });
-  }, [userID]);
+      getAllPosts(userID)
+        .then(data => {
+          if (data) {
+            setPostsData(data);
+            setIsLoading(false);
+          } else {
+            console.log('No posts data found');
+          }
+        })
+        .catch(error => {
+          console.error('Error fetching user posts: ', error);
+        });
+    }
+  }, [userID, isFocused]);
 
   return (
     <View style={{flex: 1}}>
@@ -146,9 +151,9 @@ const UserProfile = ({route, navigation}) => {
               <ProfilePostItem
                 post={item}
                 onPress={() =>
-                  navigation.navigate('PostDetails', {
-                    postID: item.postID,
-                    userID: userID,
+                  navigation.navigate(Routes.ViewPost, {
+                    postData: item,
+                    userData: userData,
                   })
                 }
               />

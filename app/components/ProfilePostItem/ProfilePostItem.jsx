@@ -1,11 +1,19 @@
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Image, TouchableOpacity} from 'react-native';
 import Header from '../Header/Header';
-import {horizontalScale, verticalScale} from '../../../assets/styles/scaling';
+import {
+  horizontalScale,
+  verticalScale,
+  scaleFontSize,
+} from '../../../assets/styles/scaling';
 
-const ProfilePostItem = ({post}) => {
+const ProfilePostItem = ({post, onPress}) => {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      onPress={() => {
+        onPress();
+      }}>
       <Image source={{uri: post.pictures[0]}} style={styles.image} />
       <View style={{paddingLeft: horizontalScale(5), overflow: 'hidden'}}>
         <Header type={2} title={post.title} color={'#8a2be2'} />
@@ -15,19 +23,19 @@ const ProfilePostItem = ({post}) => {
 };
 const styles = StyleSheet.create({
   container: {
-    margin: 10,
-    borderRadius: 20,
+    margin: verticalScale(10),
+    borderRadius: verticalScale(20),
     backgroundColor: '#fff',
     shadowColor: '#8a2be2',
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 0,
     },
     shadowOpacity: 1,
     shadowRadius: 3,
     elevation: 5,
     borderColor: '#8a2be2',
-    width: '40%',
+    width: '43%',
     paddingBottom: verticalScale(10),
   },
   image: {
@@ -36,8 +44,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   title: {
-    fontSize: 18,
+    fontSize: scaleFontSize(18),
     fontWeight: 'bold',
+    overflow: 'hidden',
   },
 });
 

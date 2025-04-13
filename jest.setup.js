@@ -1,4 +1,5 @@
 /* eslint-disable no-undef */
+
 jest.mock('@react-native-async-storage/async-storage');
 jest.mock('react-native-gesture-handler', () => {
   const View = require('react-native/Libraries/Components/View/View');
@@ -22,6 +23,7 @@ jest.mock('@react-navigation/native', () => {
       goBack: jest.fn(),
     }),
     NavigationContainer: ({children}) => children,
+    useIsFocused: jest.fn(() => true),
   };
 });
 
@@ -69,3 +71,4 @@ jest.mock('react-native-vector-icons/MaterialCommunityIcons');
 jest.mock('react-native-vector-icons/FontAwesome5');
 jest.mock('react-native-permissions');
 jest.mock('react-native-image-crop-picker');
+jest.mock('@gorhom/bottom-sheet');
